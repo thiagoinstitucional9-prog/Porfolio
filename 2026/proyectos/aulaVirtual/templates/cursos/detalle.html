@@ -1,0 +1,87 @@
+{% extends "base.html" %}{% block contenido %}
+<div class="titulo-pagina">
+  <div>
+    <a href="{{ url_for('cursos') }}">← Volver</a>
+    <h1>{{ curso.nombre }}</h1>
+    <p>{{ curso.descripcion }}</p>
+  </div>
+  {% if es_gestor %}
+  <div class="acciones">
+    <a
+      class="boton boton-secundario"
+      href="{{ url_for('editar_curso', curso_id=curso.id) }}"
+      >Editar</a
+    >
+    <form
+      method="POST"
+      action="{{ url_for('eliminar_curso', curso_id=curso.id) }}"
+    >
+      <button class="boton peligro">Eliminar</button>
+    </form>
+  </div>
+  {% endif %}
+</div>
+<section class="seccion">
+  <div class="subtitulo">
+    <h2>Contenidos</h2>
+    {% if es_gestor %}<a
+      class="boton boton-chico"
+      href="{{ url_for('crear_contenido', curso_id=curso.id) }}"
+      >+ Publicar</a
+    >{% endif %}
+  </div>
+  {% for item in curso.contenidos %}
+  <article class="fila">
+    <div><strong>{{ item.titulo }}</strong><span>{{ item.tipo }}</span></div>
+    <div class="acciones">
+      <a href="{{ item.url_o_archivo }}" target="_blank" rel="noopener"
+        >Ver material</a
+      >{% if es_gestor %}
+      <form
+        method="POST"
+        action="{{ url_for('eliminar_contenido', contenido_id=item.id) }}"
+      >
+        <button class="enlace peligro-texto">Eliminar</button>
+      </form>
+      {% endif %}
+    </div>
+  </article>
+  {% else %}
+  <p class="vacio">Aún no se publicaron materiales.</p>
+  {% endfor %}
+</section>
+<section class="seccion">
+  <div class="subtitulo">
+    <h2>Evaluaciones</h2>
+    {% if es_gestor %}<a
+      class="boton boton-chico"
+      href="{{ url_for('crear_evaluacion', curso_id=curso.id) }}"
+      >+ Crear evaluación</a
+    >{% endif %}
+  </div>
+  {% for evaluacion in curso.evaluaciones %}
+  <article class="fila">
+    <div>
+      <strong>{{ evaluacion.titulo }}</strong
+      ><span>{{ evaluacion.descripcion or "Sin indicaciones." }}</span>
+    </div>
+    {% if es_gestor %}<span>{{ evaluacion.entregas|length }} entrega(s)</span>{%
+    else %}<a
+      href="{{ url_for('rendir_evaluacion', evaluacion_id=evaluacion.id) }}"
+      >Ver evaluación</a
+    >{% endif %}
+  </article>
+  {% if es_gestor %}{% for entrega in evaluacion.entregas %}
+  <article class="entrega">
+    <span
+      >{{ entrega.estudiante.nombre }}: {{ entrega.calificacion if
+      entrega.calificacion is not none else 'Sin calificar' }}</span
+    ><a href="{{ url_for('calificar_entrega', entrega_id=entrega.id) }}"
+      >Revisar</a
+    >
+  </article>
+  {% endfor %}{% endif %}{% else %}
+  <p class="vacio">Aún no hay evaluaciones.</p>
+  {% endfor %}
+</section>
+{% endblock %}

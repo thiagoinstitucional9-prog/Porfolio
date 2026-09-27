@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block contenido %}
+<section class="formulario">
+    <h1>Crear cuenta</h1>
+    <form method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        <label>{{ form.nombre.label }}{{ form.nombre() }}{% for error in form.nombre.errors %}<small class="error-campo">{{ error }}</small>{% endfor %}</label>
+        <label>{{ form.email.label }}{{ form.email(placeholder="tu@email.com") }}{% for error in form.email.errors %}<small class="error-campo">{{ error }}</small>{% endfor %}</label>
+        <label>{{ form.password.label }}{{ form.password() }}{% for error in form.password.errors %}<small class="error-campo">{{ error }}</small>{% endfor %}</label>
+        <label>{{ form.confirmar_password.label }}{{ form.confirmar_password() }}{% for error in form.confirmar_password.errors %}<small class="error-campo">{{ error }}</small>{% endfor %}</label>
+        {{ form.submit(class_="boton") }}
+    </form>
+</section>
+{% endblock %}

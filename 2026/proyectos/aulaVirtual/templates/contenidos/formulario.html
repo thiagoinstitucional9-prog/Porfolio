@@ -1,0 +1,19 @@
+{% extends "base.html" %}{% block contenido %}
+<section class="formulario">
+  <h1>Publicar contenido</h1>
+  <p>Curso: {{ curso.nombre }}</p>
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}<label
+      >{{ form.titulo.label }}{{ form.titulo() }}</label
+    ><label
+      >{{ form.tipo.label }}{{ form.tipo(placeholder="PDF, video o enlace")
+      }}</label
+    ><label
+      >{{ form.enlace.label }}{{ form.enlace(placeholder="https://...")
+      }}</label
+    ><label>{{ form.archivo.label }}{{ form.archivo() }}</label>
+    <p class="ayuda">Completá un enlace o seleccioná un archivo.</p>
+    {{ form.submit(class_="boton") }}
+  </form>
+</section>
+{% endblock %}

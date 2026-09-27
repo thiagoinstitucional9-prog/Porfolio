@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block contenido %}
+<div class="titulo-pagina"><div><p class="etiqueta">Seguimiento</p><h1>Evaluaciones</h1><p>{% if current_user.es_estudiante() %}Consultá tus entregas y calificaciones.{% else %}Evaluaciones de los cursos que administrás.{% endif %}</p></div></div>
+<section class="seccion">{% for evaluacion in evaluaciones %}{% set entrega = entregas.get(evaluacion.id) %}<article class="fila"><div><strong>{{ evaluacion.titulo }}</strong><span>{{ evaluacion.curso.nombre }} · {{ evaluacion.descripcion or 'Sin indicaciones.' }}</span></div>{% if current_user.es_estudiante() %}{% if entrega %}<span class="nota">Nota: {{ entrega.calificacion if entrega.calificacion is not none else 'Pendiente de calificación' }}</span>{% else %}<a class="boton boton-chico" href="{{ url_for('rendir_evaluacion', evaluacion_id=evaluacion.id) }}">Realizar</a>{% endif %}{% else %}<a class="boton boton-chico" href="{{ url_for('ver_curso', curso_id=evaluacion.id_curso) }}">Ver curso</a>{% endif %}</article>{% else %}<p class="vacio">No hay evaluaciones para mostrar.</p>{% endfor %}</section>
+{% endblock %}

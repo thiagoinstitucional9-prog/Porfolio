@@ -1,28 +1,42 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from .models import Linea, Estacion, Tren
 from django.contrib.auth.models import User
+
+from .models import Linea, Estacion, Tren
+
+
 
 
 def registro_view(request):
+
     if request.method == "POST":
-        usuario = request.POST["usuario"].strip()
+
+        usuario = request.POST["usuario"]
         password = request.POST["password"]
 
-        if usuario and password:
-            if not User.objects.filter(username=usuario).exists():
+        if usuario != "" and password != "":
+
+            usuario_existe = User.objects.filter(
+                username=usuario
+            ).exists()
+
+            if usuario_existe == False:
+
                 User.objects.create_user(
                     username=usuario,
                     password=password
                 )
+
                 return redirect("login")
 
         return render(request, "registro.html", {
-            "error": "El usuario ya existe o los datos son incorrectos"
+            "error": "El usuario ya existe o los datos estan vacios"
         })
 
     return render(request, "registro.html")
+
+
+
 
 def login_view(request):
 
@@ -34,60 +48,75 @@ def login_view(request):
         usuario = request.POST["usuario"]
         password = request.POST["password"]
 
-        user = authenticate(
+        usuario_valido = authenticate(
             request,
             username=usuario,
-            password=password   
+            password=password
         )
 
-        if user is not None:
-            login(request, user)
+        if usuario_valido is not None:
+
+
+            login(request, usuario_valido)
+
             return redirect("inicio")
 
-        return render(request, "login.html", {
-            "error": "Usuario o contraseña incorrectos"
-        })
+        else:
+
+            return render(request, "login.html", {
+                "error": "Usuario o contraseña incorrectos"
+            })
 
     return render(request, "login.html")
 
 
-@login_required
+
 def inicio(request):
 
+    
     lineas = Linea.objects.all()
     trenes = Tren.objects.all()
 
-    return render(request, "metro.html", {
+    datos = {
         "lineas": lineas,
         "trenes": trenes
-    })
+    }
+
+    return render(request, "metro.html", datos)
 
 
-@login_required
+
 def crear_linea(request):
 
+    
     if request.method == "POST":
 
-        nombre = request.POST["nombre"].strip()
+        nombre = request.POST["nombre"]
 
-        if nombre:
-            Linea.objects.create(nombre=nombre)
+        if nombre != "":
+
+            Linea.objects.create(
+                nombre=nombre
+            )
 
     return redirect("inicio")
 
 
-@login_required
+
 def eliminar_linea(request, id):
 
+    
     linea = Linea.objects.get(id=id)
+
     linea.delete()
 
     return redirect("inicio")
 
 
-@login_required
+
 def crear_estacion(request):
 
+    
     if request.method == "POST":
 
         nombre = request.POST["nombre"]
@@ -105,31 +134,38 @@ def crear_estacion(request):
     return redirect("inicio")
 
 
-@login_required
+
 def crear_tren(request):
 
+    
     if request.method == "POST":
 
         id_tren = request.POST["id_tren"]
 
-        if id_tren:
-            Tren.objects.create(id_tren=id_tren)
+        if id_tren != "":
+
+            Tren.objects.create(
+                id_tren=id_tren
+            )
 
     return redirect("inicio")
 
 
-@login_required
+
 def eliminar_tren(request, id):
 
+    
     tren = Tren.objects.get(id=id)
+
     tren.delete()
 
     return redirect("inicio")
 
 
-@login_required
+
 def mover_tren(request):
 
+    
     if request.method == "POST":
 
         tren_id = request.POST["tren"]
@@ -138,9 +174,13 @@ def mover_tren(request):
         tren = Tren.objects.get(id=tren_id)
 
         if destino == "NINGUNA":
+
             tren.linea = None
+
         else:
+
             linea = Linea.objects.get(id=destino)
+
             tren.linea = linea
 
         tren.save()
@@ -148,8 +188,10 @@ def mover_tren(request):
     return redirect("inicio")
 
 
+
 def logout_view(request):
 
     logout(request)
 
     return redirect("login")
+

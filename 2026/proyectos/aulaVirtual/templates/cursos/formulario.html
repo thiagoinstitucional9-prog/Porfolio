@@ -1,0 +1,11 @@
+{% extends "base.html" %}{% block contenido %}
+<section class="formulario">
+  <h1>{{ titulo }}</h1>
+  <form method="POST">
+    {{ form.hidden_tag() }}<label
+      >{{ form.nombre.label }}{{ form.nombre() }}</label
+    ><label>{{ form.descripcion.label }}{{ form.descripcion(rows=5) }}</label>{{
+    form.submit(class_="boton") }}
+  </form>
+</section>
+{% endblock %}

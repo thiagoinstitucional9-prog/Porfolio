@@ -8,18 +8,19 @@
     <style>
 
         body {
-            background: #111;
-            color: white;
+            background: #000000;
+            color: rgb(0, 0, 0);
             font-family: Arial;
             padding: 20px;
         }
 
         h1 {
-            color: red;
+            color: rgb(252, 253, 252);
         }
 
         .contenedor {
             display: flex;
+            flex-direction: row;
             gap: 30px;
         }
 
@@ -28,12 +29,12 @@
         }
 
         .derecha {
-            width: 45%;
+            width: 45%; 
         }
 
         .caja {
-            background: #222;
-            border: 1px solid #555;
+            background: #faf9f9;
+            border: 1px solid #fe0000;
             padding: 20px;
             margin-bottom: 20px;
         }
@@ -45,25 +46,25 @@
 
         button {
             padding: 8px 15px;
-            background: red;
-            color: white;
+            background: rgb(0, 0, 0);
+            color: rgb(255, 254, 254);
             border: none;
             cursor: pointer;
         }
 
         .linea {
-            background: #191919;
+            background: #ffffff;
             border: 1px solid #555;
             padding: 15px;
             margin-bottom: 15px;
         }
 
         .rojo {
-            color: red;
+            color: rgb(0, 0, 0);
         }
 
         .verde {
-            color: green;
+            color: rgb(0, 0, 0);
         }
 
         .gris {
@@ -71,9 +72,12 @@
         }
 
         a {
-            color: red;
+            color: rgb(0, 0, 0);
         }
 
+        .white {
+            color:rgb(255, 255, 255)
+        }
     </style>
 
 </head>
@@ -83,123 +87,21 @@
 
 <h1>SISTEMA DE METRO</h1>
 
-<p>
+<p class="white">
     Usuario: {{ user.username }}
     |
-    <a href="{% url 'logout' %}">
+    <a class="white" href="{% url 'logout' %}">
         Cerrar sesion
     </a>
 </p>
 
 <hr>
 
-
 <div class="contenedor">
-
-
-<!-- ================= LINEAS ================= -->
-
-<div class="izquierda">
-
-    <h2>Lineas Activas</h2>
-
-    {% for linea in lineas %}
-
-    <div class="linea">
-
-        <h2>{{ linea.nombre }}</h2>
-
-        <h3>Estaciones</h3>
-
-        {% for estacion in linea.estacion_set.all %}
-
-            <p class="gris">
-
-                {{ forloop.counter }}.
-                {{ estacion.nombre }}
-
-                [Accesos:
-                {{ estacion.accesos }}]
-
-            </p>
-
-        {% empty %}
-
-            <p class="gris">
-                Sin estaciones
-            </p>
-
-        {% endfor %}
-
-
-        <h3>Trenes asignados</h3>
-
-        {% for tren in linea.tren_set.all %}
-
-            <p>
-                {{ tren.id_tren }}
-            </p>
-
-        {% empty %}
-
-            <p class="gris">
-                Sin trenes asignados
-            </p>
-
-        {% endfor %}
-
-
-        {% if linea.validar_flota %}
-
-            <p class="verde">
-                FLOTA OK
-                ({{ linea.tren_set.count }} trenes)
-            </p>
-
-        {% else %}
-
-            <p class="rojo">
-                Flota incorrecta
-                (Min:
-                {{ linea.estacion_set.count }}
-                /
-                Max:
-                {{ linea.estacion_set.count|add:linea.estacion_set.count }})
-            </p>
-
-        {% endif %}
-
-
-        <p class="gris">
-
-            Accesos totales:
-
-            {{ linea.obtener_todos_accesos|join:" | " }}
-
-        </p>
-
-
-        <a href="{% url 'eliminar_linea' linea.id %}">
-            Eliminar linea
-        </a>
-
-    </div>
-
-    {% empty %}
-
-        <p>No existen lineas.</p>
-
-    {% endfor %}
-
-</div>
-
-
-<!-- ================= PANEL DERECHO ================= -->
 
 <div class="derecha">
 
 
-<!-- CREAR LINEA -->
 
 <div class="caja">
 
@@ -224,7 +126,6 @@
 </div>
 
 
-<!-- CREAR ESTACION -->
 
 <div class="caja">
 
@@ -267,7 +168,6 @@
 </div>
 
 
-<!-- CREAR TREN -->
 
 <div class="caja">
 
@@ -327,7 +227,6 @@
 </div>
 
 
-<!-- MOVER TREN -->
 
 <div class="caja">
 
@@ -378,8 +277,106 @@
 
 </div>
 
+
+
+<div class="izquierda">
+    
+    <h2 class="white">Lineas Activas</h2>
+
+    {% for linea in lineas %}
+    
+    <div class="linea">
+        
+        <h2>{{ linea.nombre }}</h2>
+        
+        <h3>Estaciones</h3>
+        
+        {% for estacion in linea.estacion_set.all %}
+        
+            <p class="gris">
+                
+                {{ forloop.counter }}.
+                {{ estacion.nombre }}
+                
+                [Accesos:
+                {{ estacion.accesos }}]
+                
+            </p>
+            
+            {% empty %}
+            
+            <p class="gris">
+                Sin estaciones
+            </p>
+            
+            {% endfor %}
+            
+            
+            <h3>Trenes asignados</h3>
+            
+            {% for tren in linea.tren_set.all %}
+            
+            <p>
+                {{ tren.id_tren }}
+            </p>
+            
+            {% empty %}
+            
+            <p class="gris">
+                Sin trenes asignados
+            </p>
+            
+            {% endfor %}
+            
+            
+            {% if linea.validar_flota %}
+            
+            <p class="verde">
+                FLOTA OK
+                ({{ linea.tren_set.count }} trenes)
+            </p>
+            
+            {% else %}
+            
+            <p class="rojo">
+                Flota incorrecta
+                (Min:
+                {{ linea.estacion_set.count }}
+                /
+                Max:
+                {{ linea.estacion_set.count|add:linea.estacion_set.count }})
+            </p>
+            
+            {% endif %}
+            
+            
+            <p class="gris">
+                
+                Accesos totales:
+                
+                {{ linea.obtener_todos_accesos|join:" | " }}
+                
+            </p>
+            
+            
+            <a href="{% url 'eliminar_linea' linea.id %}">
+                Eliminar linea
+            </a>
+            
+        </div>
+        
+        {% empty %}
+        
+        <p>No existen lineas.</p>
+        
+        {% endfor %}
+        
+    </div>
+    
+    
+    
 </div>
 
 </body>
-
+    
 </html>

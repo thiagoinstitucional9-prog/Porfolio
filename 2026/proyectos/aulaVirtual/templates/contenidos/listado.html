@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block contenido %}
+<div class="titulo-pagina"><div><p class="etiqueta">Biblioteca</p><h1>Materiales</h1><p>Contenido publicado por los profesores, agrupado por curso.</p></div></div>
+{% for curso, materiales in materiales_por_curso %}
+<section class="seccion">
+    <div class="subtitulo"><h2>{{ curso.nombre }}</h2><a href="{{ url_for('ver_curso', curso_id=curso.id) }}">Ir al curso</a></div>
+    {% for material in materiales %}
+    <article class="fila">
+        <div><strong>{{ material.titulo }}</strong><span>{{ material.tipo }} · Publicado {{ material.fecha_publicacion.strftime('%d/%m/%Y') if material.fecha_publicacion else '' }}</span></div>
+        <a class="boton boton-chico boton-material" href="{{ material.url_o_archivo }}" target="_blank" rel="noopener">Abrir material</a>
+    </article>
+    {% else %}<p class="vacio">Este curso todavía no tiene materiales publicados.</p>{% endfor %}
+</section>
+{% else %}<p class="vacio">No tenés cursos disponibles para consultar materiales.</p>{% endfor %}
+{% endblock %}

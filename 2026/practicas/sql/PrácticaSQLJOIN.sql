@@ -156,3 +156,21 @@ select producto.nombre_producto,
 
 --13
 select cliente.nombre, 
+
+select sales.amount_sold, sales.quantity_sold, product.product_name
+from sales
+INNER JOIN product
+ON sales.product_id = product.product_id
+
+select  customer.first_name, product.product_name, sales.quanty_sold
+from customer
+INNER JOIN sales
+ON customer.customer_id = sales.customer_id
+INNER JOIN product
+ON sales.product_id = product.product_id
+
+select customer.first_name, sales.amount_sold
+from customer
+left JOIN  sales
+ON customer.customer_id = sales.customer_id
+

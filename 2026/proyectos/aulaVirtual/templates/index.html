@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block contenido %}
+<section class="hero">
+    <p class="etiqueta">Aprendé y enseñá</p>
+        <h3>LBDG</h3>
+    <h1>Tu aula, en un solo lugar.</h1>
+    <p>Una plataforma pensada para acompañar el trabajo diario de docentes y estudiantes. Organizá cada materia, compartí recursos de estudio y mantené todas las actividades importantes reunidas en un mismo espacio.</p>
+    <p>Ingresá a tus cursos para consultar materiales, realizar evaluaciones y seguir el progreso de tus aprendizajes.</p>
+    {% if not current_user.is_authenticated %}<a class="boton" href="{{ url_for('registro') }}">Comenzar ahora</a>{% endif %}
+</section>
+<section class="grilla tres">
+    <article class="tarjeta"><h2>Cursos</h2><p>Creá, editá y organizá tus propuestas.</p><a class="enlace-tarjeta" href="{{ url_for('cursos') if current_user.is_authenticated else url_for('login') }}">Ver cursos →</a></article>
+    <article class="tarjeta"><h2>Materiales</h2><p>Consultá archivos, videos y enlaces publicados por materia.</p><a class="enlace-tarjeta" href="{{ url_for('materiales') if current_user.is_authenticated else url_for('login') }}">Ver materiales →</a></article>
+    <article class="tarjeta"><h2>Evaluaciones</h2><p>Revisá tus evaluaciones, entregas y calificaciones.</p><a class="enlace-tarjeta" href="{{ url_for('evaluaciones') if current_user.is_authenticated else url_for('login') }}">Ver evaluaciones →</a></article>
+</section>
+{% endblock %}

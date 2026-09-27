@@ -1,0 +1,41 @@
+{% extends "base.html" %}{% block contenido %}
+<div class="titulo-pagina">
+  <div>
+    <p class="etiqueta">Panel</p>
+    <h1>Mis cursos</h1>
+  </div>
+  {% if current_user.es_admin() or current_user.es_profesor() %}<a
+    class="boton"
+    href="{{ url_for('crear_curso') }}"
+    >+ Crear curso</a
+  >{% endif %}
+</div>
+<section class="grilla">
+  {% for curso in cursos %}
+  <article class="tarjeta curso">
+    <h2>{{ curso.nombre }}</h2>
+    <p>{{ curso.descripcion or "Sin descripción." }}</p>
+    <a href="{{ url_for('ver_curso', curso_id=curso.id) }}">Abrir curso →</a>
+  </article>
+  {% else %}
+  <p class="vacio">Todavía no hay cursos en esta sección.</p>
+  {% endfor %}
+</section>
+{% if cursos_disponibles %}
+<section class="seccion">
+  <h2>Cursos disponibles</h2>
+  {% for curso in cursos_disponibles %}
+  <article class="fila">
+    <div>
+      <strong>{{ curso.nombre }}</strong><span>{{ curso.descripcion }}</span>
+    </div>
+    <form
+      method="POST"
+      action="{{ url_for('inscribirse', curso_id=curso.id) }}"
+    >
+      <button class="boton boton-chico">Inscribirme</button>
+    </form>
+  </article>
+  {% endfor %}
+</section>
+{% endif %}{% endblock %}

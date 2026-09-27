@@ -1,0 +1,791 @@
+:root {
+    --azul: #2946b6;
+    --oscuro: #14213d;
+
+    /* MODO CLARO */
+    --fondo: #f5f7fb;
+    --texto: #1e293b;
+    --borde: #dde3f0;
+    --tarjeta: #ffffff;
+    --texto-secundario: #64748b;
+    --input: #ffffff;
+    --input-borde: #bdc8df;
+    --respuesta: #f8fafc;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--fondo);
+    color: var(--texto);
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+
+/* =====================================================
+   MODO OSCURO
+   ===================================================== */
+
+body.dark-mode {
+    --fondo: #0f172a;
+    --texto: #e5e7eb;
+    --borde: #334155;
+    --tarjeta: #1e293b;
+    --texto-secundario: #94a3b8;
+    --input: #172033;
+    --input-borde: #475569;
+    --respuesta: #172033;
+}
+
+
+/* =====================================================
+   BARRA DE NAVEGACIÓN
+   ===================================================== */
+
+.barra {
+    min-height: 64px;
+    background: var(--oscuro);
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 7%;
+    gap: 20px;
+}
+.nav-enlaces {
+    margin-left: auto;
+}
+
+.marca {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.nav-enlaces,
+.acciones,
+.subtitulo,
+.titulo-pagina {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.nav-enlaces a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.nav-enlaces a:hover {
+    opacity: 0.8;
+}
+
+.usuario {
+    color: #c7d2fe;
+}
+
+
+/* =====================================================
+   CONTENEDOR
+   ===================================================== */
+
+.contenedor {
+    max-width: 1050px;
+    margin: auto;
+    padding: 40px 24px;
+}
+
+
+/* =====================================================
+   HERO
+   ===================================================== */
+
+.hero {
+    padding: 70px 8%;
+
+    background: linear-gradient(
+        115deg,
+        #172554,
+        #394fd1
+    );
+
+    border-radius: 18px;
+    color: #fff;
+
+    box-shadow: 0 12px 35px #19265c33;
+}
+
+.hero h1 {
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    line-height: 1.05;
+    margin: 8px 0;
+}
+
+.hero p:not(.etiqueta) {
+    font-size: 1.1rem;
+    max-width: 680px;
+}
+
+.etiqueta {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+
+    font-size: 0.78rem;
+    font-weight: bold;
+
+    color: #7184ff;
+}
+
+.hero .etiqueta {
+    color: #bfdbfe;
+}
+
+
+/* =====================================================
+   BOTONES
+   ===================================================== */
+
+.boton {
+    background: var(--azul);
+    color: #fff;
+
+    border: 0;
+    border-radius: 8px;
+
+    padding: 10px 16px;
+
+    display: inline-block;
+
+    text-decoration: none;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.boton:hover {
+    filter: brightness(0.9);
+}
+
+.hero .boton {
+    background: #fff;
+    color: var(--azul);
+
+    margin-top: 14px;
+}
+
+.boton-chico {
+    padding: 7px 12px;
+    font-size: 0.9rem;
+}
+
+.boton-secundario {
+    background: #64748b;
+}
+
+.peligro {
+    background: #b91c1c;
+}
+
+
+/* =====================================================
+   GRILLA
+   ===================================================== */
+
+.grilla {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(230px, 1fr));
+
+    gap: 20px;
+
+    margin-top: 28px;
+}
+
+
+/* =====================================================
+   TARJETAS / SECCIONES / FORMULARIOS
+   ===================================================== */
+
+.tarjeta,
+.seccion,
+.formulario {
+    background: var(--tarjeta);
+
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+
+    padding: 24px;
+
+    box-shadow: 0 4px 12px #1725540a;
+
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        color 0.3s ease;
+}
+
+.tarjeta h2 {
+    margin-top: 0;
+}
+
+
+/* =====================================================
+   ENLACES
+   ===================================================== */
+
+.enlace-tarjeta,
+.curso a,
+.fila a,
+.entrega a,
+.formulario > a {
+    color: var(--azul);
+
+    font-weight: bold;
+    text-decoration: none;
+}
+
+body.dark-mode .enlace-tarjeta,
+body.dark-mode .curso a,
+body.dark-mode .fila a,
+body.dark-mode .entrega a,
+body.dark-mode .formulario > a {
+    color: #93c5fd;
+}
+
+.enlace-tarjeta {
+    display: inline-block;
+    margin-top: 8px;
+}
+
+
+/* =====================================================
+   TÍTULOS
+   ===================================================== */
+
+.titulo-pagina {
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.titulo-pagina h1 {
+    margin: 2px 0;
+}
+
+.seccion {
+    margin-top: 28px;
+}
+
+.subtitulo {
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.subtitulo h2 {
+    margin: 0;
+}
+
+
+/* =====================================================
+   FILAS
+   ===================================================== */
+
+.fila {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+
+    padding: 16px 0;
+
+    border-top: 1px solid var(--borde);
+}
+
+.fila:first-of-type {
+    border-top: 0;
+}
+
+.fila strong,
+.fila span {
+    display: block;
+}
+
+.fila span,
+.ayuda {
+    color: var(--texto-secundario);
+    font-size: 0.9rem;
+}
+
+
+/* =====================================================
+   BOTONES DENTRO DE FILAS
+   ===================================================== */
+
+.fila .boton,
+.boton-material {
+    color: #fff !important;
+    background: var(--azul);
+}
+
+.fila .boton:hover,
+.boton-material:hover {
+    background: #1e3696;
+    color: #fff !important;
+}
+
+
+/* =====================================================
+   ENTREGAS
+   ===================================================== */
+
+.entrega {
+    margin: 0 0 0 20px;
+
+    padding: 10px 0 10px 16px;
+
+    border-left: 3px solid #c7d2fe;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+body.dark-mode .entrega {
+    border-left-color: #4f6dcc;
+}
+
+
+/* =====================================================
+   FORMULARIOS
+   ===================================================== */
+
+.formulario {
+    max-width: 650px;
+    margin: auto;
+}
+
+.formulario h1 {
+    margin-top: 0;
+}
+
+form label {
+    display: block;
+
+    font-weight: bold;
+
+    margin: 16px 0;
+}
+
+
+/* =====================================================
+   INPUTS
+   ===================================================== */
+
+input,
+textarea,
+select {
+    display: block;
+
+    width: 100%;
+
+    border: 1px solid var(--input-borde);
+    border-radius: 7px;
+
+    padding: 10px;
+    margin-top: 6px;
+
+    font: inherit;
+
+    background: var(--input);
+    color: var(--texto);
+
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease,
+        color 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: 2px solid #2946b6;
+    outline-offset: 1px;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--texto-secundario);
+}
+
+.formulario form .boton {
+    margin-top: 8px;
+}
+
+
+/* =====================================================
+   ERRORES
+   ===================================================== */
+
+.error-campo {
+    display: block;
+
+    color: #b91c1c;
+
+    font-weight: normal;
+
+    margin-top: 5px;
+}
+
+
+/* =====================================================
+   ALERTAS
+   ===================================================== */
+
+.alerta {
+    border-radius: 8px;
+
+    padding: 12px 16px;
+
+    margin-bottom: 20px;
+}
+
+.exito {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.error {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.info {
+    background: #e0f2fe;
+    color: #075985;
+}
+
+
+/* ALERTAS EN MODO OSCURO */
+
+body.dark-mode .exito {
+    background: #14532d;
+    color: #bbf7d0;
+}
+
+body.dark-mode .error {
+    background: #7f1d1d;
+    color: #fecaca;
+}
+
+body.dark-mode .info {
+    background: #164e63;
+    color: #bae6fd;
+}
+
+
+/* =====================================================
+   OTROS
+   ===================================================== */
+
+.vacio {
+    color: var(--texto-secundario);
+}
+
+.enlace {
+    background: transparent;
+
+    border: 0;
+
+    cursor: pointer;
+
+    font: inherit;
+}
+
+.peligro-texto {
+    color: #b91c1c;
+}
+
+body.dark-mode .peligro-texto {
+    color: #fca5a5;
+}
+
+.respuesta {
+    white-space: pre-wrap;
+
+    background: var(--respuesta);
+
+    border-left: 4px solid var(--azul);
+
+    padding: 14px;
+
+    margin: 18px 0;
+
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+
+/* =====================================================
+   TABLAS
+   ===================================================== */
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background: var(--tarjeta);
+
+    color: var(--texto);
+}
+
+th,
+td {
+    padding: 12px;
+
+    border-bottom: 1px solid var(--borde);
+
+    text-align: left;
+}
+
+th {
+    background: var(--fondo);
+}
+
+
+/* =====================================================
+   BOTÓN MODO CLARO / OSCURO
+   ===================================================== */
+
+.theme-toggle {
+    position: relative;
+
+    width: 88px;
+    height: 44px;
+
+    padding: 0;
+
+    border: 2px solid #d1d5db;
+    border-radius: 999px;
+
+    background: #ffffff;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+
+    overflow: hidden;
+
+    flex-shrink: 0;
+
+    transition:
+        background-color 0.3s ease,
+        border-color 0.3s ease;
+}
+
+
+/* CÍRCULO */
+
+.theme-toggle::before {
+    content: "";
+
+    position: absolute;
+
+    width: 40px;
+    height: 40px;
+
+    top: 0;
+    left: 0;
+
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    border: 1px solid #d1d5db;
+
+    z-index: 1;
+
+    transition:
+        transform 0.3s ease,
+        background-color 0.3s ease;
+}
+
+
+/* ICONOS */
+
+.theme-icon {
+    position: absolute;
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 2;
+
+    font-size: 25px;
+
+    line-height: 1;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.3s ease;
+}
+
+
+/* SOL */
+
+.theme-icon.sun {
+    right: 2px;
+
+    color: #111111;
+
+    opacity: 1;
+
+    transform: rotate(0deg);
+}
+
+
+/* LUNA */
+
+.theme-icon.moon {
+    left: 2px;
+
+    color: #111111;
+
+    opacity: 0;
+
+    transform: rotate(-30deg);
+}
+
+
+/* =====================================================
+   MODO OSCURO DEL BOTÓN
+   ===================================================== */
+
+body.dark-mode .theme-toggle {
+    background: #000000;
+
+    border-color: #000000;
+}
+
+
+/* CÍRCULO SE MUEVE */
+
+body.dark-mode .theme-toggle::before {
+    transform: translateX(44px);
+
+    background: #ffffff;
+
+    border-color: #ffffff;
+}
+
+
+/* SOL DESAPARECE */
+
+body.dark-mode .theme-icon.sun {
+    opacity: 0;
+
+    transform: rotate(30deg);
+}
+
+
+/* LUNA APARECE */
+
+body.dark-mode .theme-icon.moon {
+    opacity: 1;
+
+    color: #111111;
+
+    transform: rotate(0deg);
+}
+
+
+/* =====================================================
+   POSICIÓN DEL BOTÓN
+   ===================================================== */
+
+.barra .acciones {
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    margin-left: auto;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 620px) {
+
+    .barra,
+    .titulo-pagina,
+    .fila {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .barra {
+        padding: 14px 7%;
+    }
+
+    .nav-enlaces {
+        flex-wrap: wrap;
+    }
+
+    .contenedor {
+        padding: 24px 16px;
+    }
+
+    .hero {
+        padding: 48px 24px;
+    }
+
+    .acciones {
+        flex-wrap: wrap;
+    }
+
+    .theme-toggle {
+        width: 82px;
+        height: 42px;
+    }
+
+    .theme-toggle::before {
+        width: 38px;
+        height: 38px;
+    }
+
+    .theme-icon {
+        width: 38px;
+        height: 38px;
+
+        font-size: 23px;
+    }
+
+    body.dark-mode .theme-toggle::before {
+        transform: translateX(40px);
+    }
+}
+

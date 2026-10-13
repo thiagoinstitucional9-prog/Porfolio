@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Simular Pago{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Simular Pago - Pedido #{{ pedido.id }}</h2>
+    
+    {% if pedido.detalles %}
+    <p><strong>Producto:</strong> {{ pedido.detalles[0].producto.nombre }}</p>
+    <p><strong>Cantidad:</strong> {{ pedido.detalles[0].cantidad }}</p>
+    {% endif %}
+    <p><strong>Importe total:</strong> ${{ pedido.calcular_total() }}</p>
+    <p style="color: #888; font-size: 0.85rem;">Los importes son simulados. No se procesa dinero real.</p>
+    
+    <form method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            {{ form.metodo_pago(label='Método de pago (ficticio)') }}
+            {% for error in form.metodo_pago.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.resultado_demo(label='Resultado de la prueba (demo)') }}
+            {% for error in form.resultado_demo.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <button type="submit" style="width: 100%; margin-top: 20px;">Simular pago</button>
+    </form>
+
+    <!-- Volver sin usar el botón del navegador.
+         Después de simular, el resultado se muestra en el detalle del pedido. -->
+    <div class="menu-volver menu-volver-centrado">
+        <a href="{{ url_for('pedidos_ver', pedido_id=pedido.id) }}">Volver al pedido</a>
+        <a href="{{ url_for('pedidos_lista') }}">Volver a pedidos</a>
+        <a href="{{ url_for('main_index') }}">Volver al panel</a>
+    </div>
+</div>
+{% endblock %}

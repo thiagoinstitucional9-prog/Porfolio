@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Crear Pedido{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Crear Nuevo Pedido</h2>
+    
+    <p><strong>Producto:</strong> {{ producto.nombre }}</p>
+    <p><strong>Precio:</strong> ${{ producto.precio }}</p>
+    <p><strong>Stock disponible:</strong> {{ producto.stock }}</p>
+    
+    <form method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            {{ form.cantidad(label='Cantidad a comprar') }}
+            {% for error in form.cantidad.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <p><strong>Total estimado:</strong> ${{ producto.precio }} × cantidad</p>
+        
+        <button type="submit" style="width: 100%;">Crear pedido</button>
+    </form>
+
+    <!-- Volver sin usar el botón del navegador.
+         Este producto es de otro usuario, así que el destino correcto es el catálogo. -->
+    <div class="menu-volver menu-volver-centrado">
+        <a href="{{ url_for('productos_ver', producto_id=producto.id) }}">Volver al producto</a>
+        <a href="{{ url_for('catalogo') }}">Volver al catálogo</a>
+        <a href="{{ url_for('main_index') }}">Volver al panel</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Mis Pedidos{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Mis Pedidos</h2>
+    
+    {% if pedidos %}
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidos %}
+            <tr>
+                <td>{{ pedido.detalles[0].producto.nombre if pedido.detalles else 'N/A' }}</td>
+                <td>{{ pedido.detalles[0].cantidad if pedido.detalles else '0' }}</td>
+                <td>${{ pedido.calcular_total() }}</td>
+                <td>
+                    {% if pedido.estado == 'pagado' %}
+                        <span class="badge badge-aprobado">Pagado</span>
+                    {% elif pedido.estado == 'pendiente' %}
+                        <span class="badge badge-pendiente">Pendiente</span>
+                    {% else %}
+                        <span class="badge badge-rechazado">Rechazado</span>
+                    {% endif %}
+                </td>
+                <td>{{ pedido.fecha_creacion.strftime('%d/%m/%Y') }}</td>
+                <td>
+                    <a href="{{ url_for('pedidos_ver', pedido_id=pedido.id) }}" style="color: var(--rojo-principal);">Ver detalle</a>
+                    {% if pedido.estado == 'pendiente' %}
+                        | <a href="{{ url_for('pagos_pagar', pedido_id=pedido.id) }}" style="color: var(--rojo-principal);">Pagar</a>
+                    {% elif pedido.estado == 'pagado' %}
+                        | <span style="color: #666;">Pagado</span>
+                    {% else %}
+                        | <span style="color: #666;">Pendiente</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No tienes pedidos registrados.</p>
+    {% endif %}
+
+    <!-- Volver sin usar el botón del navegador -->
+    <div class="menu-volver">
+        <a href="{{ url_for('catalogo') }}" class="btn-rapido">Ver catálogo</a>
+        <a href="{{ url_for('productos_lista') }}">Ver mis productos</a>
+        <a href="{{ url_for('main_index') }}">Volver al panel</a>
+    </div>
+</div>
+{% endblock %}

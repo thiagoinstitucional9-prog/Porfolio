@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Producto{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Editar Producto</h2>
+    <form method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            {{ form.nombre(label='Nombre del producto') }}
+            {% for error in form.nombre.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.descripcion(label='Descripción') }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.precio(label='Precio') }}
+            {% for error in form.precio.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.stock(label='Stock disponible') }}
+            {% for error in form.stock.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.activo(label='Producto activo') }}
+        </div>
+        
+        <button type="submit" style="width: 100%;">Actualizar producto</button>
+    </form>
+
+    <!-- Volver sin usar el botón del navegador -->
+    <div class="menu-volver menu-volver-centrado">
+        <a href="{{ url_for('productos_ver', producto_id=producto.id) }}">Volver al producto</a>
+        <a href="{{ url_for('productos_lista') }}">Volver a productos</a>
+        <a href="{{ url_for('main_index') }}">Volver al panel</a>
+    </div>
+</div>
+{% endblock %}

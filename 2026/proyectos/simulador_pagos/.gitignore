@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual Environment
+venv/
+env/
+.env
+
+# Flask instances
+instance/
+.webassets-cache
+
+# SQLAlchemy
+*.db
+
+# OS
+.DS_Store

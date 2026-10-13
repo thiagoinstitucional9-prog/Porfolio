@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Detalle Pedido{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Detalle del Pedido #{{ pedido.id }}</h2>
+    
+    <p><strong>Comprador:</strong> {{ pedido.usuario.nombre }}</p>
+    <p><strong>Fecha:</strong> {{ pedido.fecha_creacion.strftime('%d/%m/%Y %H:%M') }}</p>
+    <p><strong>Estado:</strong> 
+        {% if pedido.estado == 'pagado' %}
+            <span class="badge badge-aprobado">Pagado</span>
+        {% elif pedido.estado == 'pendiente' %}
+            <span class="badge badge-pendiente">Pendiente</span>
+        {% else %}
+            <span class="badge badge-rechazado">Rechazado</span>
+        {% endif %}
+    </p>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unit.</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in pedido.detalles %}
+            <tr>
+                <td>{{ detalle.producto.nombre }}</td>
+                <td>{{ detalle.cantidad }}</td>
+                <td>${{ detalle.precio_unitario }}</td>
+                <td>${{ detalle.cantidad * detalle.precio_unitario }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <p><strong>Total:</strong> ${{ pedido.calcular_total() }}</p>
+    <p style="color: #888; font-size: 0.85rem;">Importe calculado en el servidor (simulado).</p>
+
+    {% if pedido.estado == 'pendiente' %}
+    <div style="margin-top: 20px;">
+        <a href="{{ url_for('pagos_pagar', pedido_id=pedido.id) }}" class="btn-pagar">Simular pago</a>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Historial de pagos del pedido -->
+<div class="card" style="margin-top: 30px;">
+    <h3>Pagos del Pedido</h3>
+    {% if pedido.pagos %}
+    <table>
+        <thead>
+            <tr>
+                <th>Transacción</th>
+                <th>Importe</th>
+                <th>Método</th>
+                <th>Resultado</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pago in pedido.pagos %}
+            <tr>
+                <td>{{ pago.identificador_transaccion }}</td>
+                <td>${{ pago.importe }}</td>
+                <td>{{ pago.metodo_pago.replace('_', ' ') }}</td>
+                <td><span class="badge badge-{{ pago.estado }}">{{ pago.estado }}</span></td>
+                <td>{{ pago.fecha_creacion.strftime('%d/%m/%Y %H:%M') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p style="color: #888; font-size: 0.85rem;">Importes ficticios. No se procesa dinero real.</p>
+    {% else %}
+    <p>Este pedido todavía no tiene pagos registrados.</p>
+    {% endif %}
+</div>
+
+<!-- Volver sin usar el botón del navegador -->
+<div class="menu-volver">
+    <a href="{{ url_for('pedidos_lista') }}">Volver a pedidos</a>
+    <a href="{{ url_for('pagos_lista') }}">Ver historial de pagos</a>
+    <a href="{{ url_for('main_index') }}">Volver al panel</a>
+</div>
+{% endblock %}

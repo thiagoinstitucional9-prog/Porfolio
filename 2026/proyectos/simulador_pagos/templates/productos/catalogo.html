@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Catálogo de Productos{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Catálogo de Productos</h2>
+    <p style="color: #888; font-size: 0.9rem;">Productos de otros usuarios que puedes comprar.</p>
+
+    <!-- Búsqueda por nombre -->
+    <form method="GET" style="margin: 15px 0;">
+        <div style="display: flex; gap: 10px;">
+            <input type="text" name="buscar" value="{{ buscar }}" placeholder="Buscar por nombre..." size="30">
+            <button type="submit">Buscar</button>
+        </div>
+    </form>
+
+    {% if productos %}
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Vendedor</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+                <td>{{ producto.nombre }}</td>
+                <td>{{ producto.propietario.nombre }}</td>
+                <td>${{ producto.precio }}</td>
+                <td>
+                    {% if producto.stock > 0 %}
+                        {{ producto.stock }}
+                    {% else %}
+                        <span class="badge badge-rechazado">Sin stock</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('productos_ver', producto_id=producto.id) }}" style="color: var(--rojo-principal);">Ver detalle</a>
+                    {% if producto.stock > 0 %}
+                    | <a href="{{ url_for('pedidos_crear', producto_id=producto.id) }}" style="color: var(--rojo-principal);">Comprar</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No hay productos disponibles en el catálogo.</p>
+    {% endif %}
+
+    <!-- Volver sin usar el botón del navegador -->
+    <div class="menu-volver">
+        <a href="{{ url_for('productos_nuevo') }}">Agregar producto propio</a>
+        <a href="{{ url_for('pedidos_lista') }}">Ver mis pedidos</a>
+        <a href="{{ url_for('main_index') }}">Volver al panel</a>
+    </div>
+</div>
+{% endblock %}

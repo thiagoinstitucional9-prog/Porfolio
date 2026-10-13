@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Iniciar Sesión{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Iniciar Sesión</h2>
+    <form method="POST" novalidate>
+        {{ form.hidden_tag() }}
+        
+        <div class="form-group">
+            {{ form.email(label='Email') }}
+            {% for error in form.email.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="form-group">
+            {{ form.password(label='Contraseña') }}
+            {% for error in form.password.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+        
+        <div style="margin-top: 15px;">
+            <button type="submit" class="btn-secundario" style="width: 100%;">Iniciar sesión</button>
+        </div>
+        <p style="margin-top: 15px; text-align: center;">
+            No tienes cuenta? <a href="{{ url_for('auth_registro') }}">Regístrate aquí</a>
+        </p>
+    </form>
+
+    <!-- Volver al inicio sin usar el botón del navegador -->
+    <div class="menu-volver menu-volver-centrado">
+        <a href="{{ url_for('main_index') }}">Volver al inicio</a>
+    </div>
+</div>
+{% endblock %}

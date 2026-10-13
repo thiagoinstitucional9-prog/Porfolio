@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Error 404{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Error 404 - Página no encontrada</h2>
+    <p>La página que intentas acceder no existe.</p>
+    <div style="margin-top: 20px;">
+        <a href="{{ url_for('main_index') }}">Volver al panel</a>
+    </div>
+</div>
+{% endblock %}

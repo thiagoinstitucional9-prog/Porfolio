@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Mis Productos{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Mis Productos</h2>
+    
+    <!-- Búsqueda por nombre -->
+    <form method="GET" style="margin-bottom: 20px;">
+        <div style="display: flex; gap: 10px;">
+            <input type="text" name="buscar" value="{{ buscar }}" placeholder="Buscar por nombre..." size="30">
+            <button type="submit">Buscar</button>
+        </div>
+    </form>
+    
+    {% if productos %}
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+                <td>{{ producto.nombre }}</td>
+                <td>${{ producto.precio }}</td>
+                <td>{{ producto.stock }}</td>
+                <td>
+                    {% if producto.activo %}
+                        <span class="badge badge-aprobado">Activo</span>
+                    {% else %}
+                        <span class="badge badge-rechazado">Inactivo</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('productos_ver', producto_id=producto.id) }}" style="color: var(--rojo-principal);">Ver</a> |
+                    <a href="{{ url_for('productos_editar', producto_id=producto.id) }}" style="color: var(--rojo-principal);">Editar</a>
+                    <form action="{{ url_for('productos_eliminar', producto_id=producto.id) }}" method="POST" style="display:inline;">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn-eliminar" onclick="return confirm('¿Estás seguro de eliminar este producto?');">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No tienes productos registrados. <a href="{{ url_for('productos_nuevo') }}">Agrega tu primer producto</a>.</p>
+    {% endif %}
+
+    <!-- Volver sin usar el botón del navegador -->
+    <div class="menu-volver">
+        <a href="{{ url_for('productos_nuevo') }}" class="btn-rapido">+ Agregar nuevo producto</a>
+        <a href="{{ url_for('catalogo') }}">Ver catálogo</a>
+        <a href="{{ url_for('main_index') }}">Volver al panel</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Historial de Pagos{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Historial de Pagos (simulados)</h2>
+    <p style="color: #888; font-size: 0.85rem;">Todos los importes son ficticios. No se procesa dinero real.</p>
+    
+    {% if pagos %}
+    <table>
+        <thead>
+            <tr>
+                <th>Transacción</th>
+                <th>Pedido</th>
+                <th>Importe</th>
+                <th>Método</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pago in pagos %}
+            <tr>
+                <td>{{ pago.identificador_transaccion }}</td>
+                <td>
+                    <a href="{{ url_for('pedidos_ver', pedido_id=pago.pedido_id) }}" style="color: var(--rojo-principal);">#{{ pago.pedido_id }}</a>
+                </td>
+                <td>${{ pago.importe }}</td>
+                <td>{{ pago.metodo_pago.replace('_', ' ') }}</td>
+                <td>
+                    <span class="badge badge-{{ pago.estado }}">{{ pago.estado }}</span>
+                </td>
+                <td>{{ pago.fecha_creacion.strftime('%d/%m/%Y %H:%M') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No tienes pagos registrados todavía. Simulá un pago desde un <a href="{{ url_for('pedidos_lista') }}" style="color: var(--rojo-principal);">pedido pendiente</a>.</p>
+    {% endif %}
+
+    <!-- Volver sin usar el botón del navegador -->
+    <div class="menu-volver">
+        <a href="{{ url_for('pedidos_lista') }}">Ver mis pedidos</a>
+        <a href="{{ url_for('catalogo') }}">Ver catálogo</a>
+        <a href="{{ url_for('main_index') }}">Volver al panel</a>
+    </div>
+</div>
+{% endblock %}

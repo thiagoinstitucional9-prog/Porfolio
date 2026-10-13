@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Error 500{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Error 500 - Error interno del servidor</h2>
+    <p>Ocurrió un error inesperado en el servidor.</p>
+    <div style="margin-top: 20px;">
+        <a href="{{ url_for('main_index') }}">Volver al panel</a>
+    </div>
+</div>
+{% endblock %}

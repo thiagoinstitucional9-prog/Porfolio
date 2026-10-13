@@ -1,0 +1,406 @@
+/* Simulador de Pago y Cobro - Estilo Personalizado */
+:root {
+    --negro-principal: #0a0a0a;
+    --blanco-secundario: #f5f5f5;
+    --gris-claro: #e0e0e0;
+    --gris-oscuro: #333333;
+    --rojo-principal: #e74c3c;
+    --rojo-hover: #c0392b;
+    --verde-exito: #27ae60;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--negro-principal);
+    color: var(--gris-oscuro);
+    line-height: 1.6;
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Barra de navegación */
+.navbar {
+    background-color: var(--negro-principal);
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: var(--blanco-secundario);
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: var(--rojo-principal);
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+}
+
+.nav-links a {
+    color: var(--gris-claro);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--rojo-principal);
+}
+
+.auth-links a {
+    color: var(--rojo-principal);
+    text-decoration: none;
+    background: var(--blanco-secundario);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.auth-links a:hover {
+    background: var(--rojo-hover);
+    color: var(--negro-principal);
+}
+
+/* Contenido principal con margen superior para la navbar */
+.main-content {
+    margin-top: 80px;
+    min-height: 800px;
+}
+
+/* Tarjetas */
+.card {
+    background: var(--blanco-secundario);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    padding: 25px;
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+}
+
+/* Formularios */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--gris-oscuro);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea,
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--gris-claro);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    background: var(--blanco-secundario);
+    color: var(--gris-oscuro);
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--rojo-principal);
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+}
+
+.form .text-danger {
+    color: var(--rojo-principal);
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: block;
+}
+
+.form-group small {
+    display: block;
+    margin-top: 5px;
+    color: #666;
+}
+
+button,
+input[type="submit"] {
+    background: var(--rojo-principal);
+    color: var(--blanco-secundario);
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background: var(--rojo-hover);
+}
+
+button:active,
+input[type="submit"]:active {
+    transform: scale(0.98);
+}
+
+/* Botones secundarios */
+.btn-secundario {
+    background: var(--gris-oscuro);
+    color: var(--blanco-secundario);
+}
+
+.btn-secundario:hover {
+    background: #555;
+}
+
+/* Tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+    background: var(--negro-principal);
+    color: var(--blanco-secundario);
+    font-size: 0.8rem;
+}
+
+td {
+    color: var(--gris-oscuro);
+}
+
+tr:hover {
+    background: #fafafa;
+}
+
+/* Estados de pago */
+.badge {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.badge-aprobado {
+    background: #d5f5e3;
+    color: var(--verde-exito);
+}
+
+.badge-rechazado {
+    background: #fadbd8;
+    color: #e74c3c;
+}
+
+.badge-pendiente {
+    background: #fdf6e3;
+    color: #f39c12;
+}
+
+/* Mensajes flash */
+.flash-success {
+    background: #d5f5e3;
+    color: var(--verde-exito);
+    padding: 10px;
+    border-radius: 4px;
+    border-left: 4px solid var(--verde-exito);
+    margin: 20px 0;
+}
+
+/* "danger" es la categoría que usa Flask para errores */
+.flash-danger,
+.flash-error {
+    background: #fadbd8;
+    color: #e74c3c;
+    padding: 10px;
+    border-radius: 4px;
+    border-left: 4px solid #e74c3c;
+    margin: 20px 0;
+}
+
+.flash-warning {
+    background: #fdf6e3;
+    color: #f39c12;
+    padding: 10px;
+    border-radius: 4px;
+    border-left: 4px solid #f39c12;
+    margin: 20px 0;
+}
+
+.flash-info {
+    background: #eaf2f8;
+    color: #2980b9;
+    padding: 10px;
+    border-radius: 4px;
+    border-left: 4px solid #2980b9;
+    margin: 20px 0;
+}
+
+/* Botón pequeño para cerrar sesión en la barra */
+.btn-cerrar-sesion {
+    background: transparent;
+    color: var(--rojo-principal);
+    border: 1px solid var(--rojo-principal);
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+.btn-cerrar-sesion:hover {
+    background: var(--rojo-principal);
+    color: var(--blanco-secundario);
+}
+
+/* Enlace estilo botón para "Simular pago" */
+.btn-pagar {
+    display: inline-block;
+    background: var(--rojo-principal);
+    color: var(--blanco-secundario);
+    padding: 10px 22px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.btn-pagar:hover {
+    background: var(--rojo-hover);
+}
+
+/* Botón eliminar en texto (fila de tabla) */
+.btn-eliminar {
+    background: transparent;
+    border: none;
+    color: #e74c3c;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+.btn-eliminar:hover {
+    text-decoration: underline;
+    background: transparent;
+}
+
+/* Accesos rápidos del panel */
+.accesos-rapidos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+/* Navegación interna: enlaces para volver sin usar el botón del navegador */
+.menu-volver {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.menu-volver a:not(.btn-rapido):not(.btn-pagar):not(.btn-secundario) {
+    color: var(--rojo-principal);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.menu-volver a:not(.btn-rapido):not(.btn-pagar):not(.btn-secundario):hover {
+    text-decoration: underline;
+}
+
+/* Variante centrada (formularios) */
+.menu-volver-centrado {
+    justify-content: center;
+}
+.btn-rapido {
+    background: var(--rojo-principal);
+    color: var(--blanco-secundario);
+    padding: 10px 18px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+}
+
+.btn-rapido:hover {
+    background: var(--rojo-hover);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar .container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .nav-links {
+        margin-top: 10px;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .form-group input,
+    .form-group select {
+        width: 100%;
+    }
+
+    /* Las tablas se desplazan horizontalmente en pantallas chicas */
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .accesos-rapidos {
+        flex-direction: column;
+    }
+
+    .btn-rapido {
+        text-align: center;
+    }
+}

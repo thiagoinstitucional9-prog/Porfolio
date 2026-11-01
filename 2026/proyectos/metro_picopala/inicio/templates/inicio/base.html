@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block titulo %}MiViaje · Pasajes de larga distancia{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'inicio/css/style.css' %}">
+</head>
+
+<body>
+
+    <div class="barra-superior">
+        <div class="contenedor barra-superior-inner">
+            <span>Ventas y consultas las 24 hs</span>
+            <span>
+                <a href="tel:+541100000000">+54 11 0000-0000</a>
+                <a href="mailto:ventas@miviaje.example">ventas@miviaje.example</a>
+            </span>
+        </div>
+    </div>
+
+    <header class="cabecera">
+        <div class="contenedor cabecera-inner">
+            <a class="logo" href="{% url 'home' %}">
+                <span class="logo-caja">M</span>
+                <span class="logo-texto">MIVIAJE<small>Larga distancia</small></span>
+            </a>
+            <nav class="nav">
+                <a href="{% url 'home' %}#destinos">Destinos</a>
+                <a href="{% url 'home' %}#promociones">Promociones</a>
+                <a href="{% url 'home' %}#contacto">Contacto</a>
+                <a class="btn btn-rojo" href="{% url 'home' %}#buscador">Comprar pasajes</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% block contenido %}{% endblock %}
+    </main>
+
+    <footer class="pie" id="contacto">
+        <div class="contenedor">
+            <p>© 2026 MiViaje. Sitio hecho con fines de aprendizaje.</p>
+        </div>
+    </footer>
+
+    <script src="{% static 'inicio/js/main.js' %}"></script>
+</body>
+
+</html>

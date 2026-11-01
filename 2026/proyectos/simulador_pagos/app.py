@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+
 """Simulador de Pago y Cobro - Aplicación Flask."""
 import os
 from datetime import datetime
@@ -12,32 +12,29 @@ from wtforms import StringField, TextAreaField, FloatField, IntegerField, Select
 from wtforms.validators import DataRequired, Optional, Length, NumberRange, Email
 from werkzeug.security import generate_password_hash, check_password_hash
 
-# ========== CONFIGURACIÓN ==========
+
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
 
-# SECRET_KEY desde variable de entorno (no guardar secretos reales en el código)
+
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'simulador-pago-cobro-desarrollo')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
     'DATABASE_URL', f'sqlite:///{os.path.join(basedir, "instance", "app.db")}'
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Inicializar extensiones
+
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
-login_manager.login_view = 'auth_login'  # a dónde redirigir si no hay sesión
+login_manager.login_view = 'auth_login'  
 login_manager.login_message = 'Por favor, inicia sesión para acceder a esta página.'
 
-# Protección CSRF en TODOS los formularios (y función csrf_token() en las plantillas)
 csrf = CSRFProtect(app)
 
-# Migraciones de base de datos con Flask-Migrate (opcional: comandos "flask db ...")
 Migrate(app, db)
 
 
-# ========== MODELOS DE LA BASE DE DATOS ==========
 
 class Usuario(UserMixin, db.Model):
     """Usuario de la aplicación."""
@@ -73,7 +70,7 @@ class Producto(db.Model):
     fecha_creacion = db.Column(db.DateTime, default=datetime.now)
     activo = db.Column(db.Boolean, default=True)
 
-    # Relación inversa: producto.propietario
+
     propietario = db.relationship('Usuario', backref='productos')
 
     def __repr__(self):
@@ -85,10 +82,9 @@ class Pedido(db.Model):
     __tablename__ = 'pedidos'
     id = db.Column(db.Integer, primary_key=True)
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'), nullable=False)
-    estado = db.Column(db.String(20), default='pendiente')  # pendiente, pagado, rechazado
+    estado = db.Column(db.String(20), default='pendiente')  
     fecha_creacion = db.Column(db.DateTime, default=datetime.now)
 
-    # Relación inversa: pedido.usuario
     usuario = db.relationship('Usuario', backref='pedidos')
 
     def calcular_total(self):
@@ -131,7 +127,6 @@ class Pago(db.Model):
     identificador_transaccion = db.Column(db.String(64), unique=True, nullable=True)
     fecha_creacion = db.Column(db.DateTime, default=datetime.now)
 
-    # Relaciones inversas: pago.pedido y pago.usuario
     pedido = db.relationship('Pedido', backref='pagos')
     usuario = db.relationship('Usuario', backref='pagos')
 
@@ -139,7 +134,6 @@ class Pago(db.Model):
         return f'<Pago {self.id} - {self.estado}>'
 
 
-# ========== FORMULARIOS ==========
 
 class RegistroForm(FlaskForm):
     nombre = StringField('Nombre', validators=[
@@ -200,14 +194,13 @@ class PagoForm(FlaskForm):
     submit = SubmitField('Simular pago')
 
 
-# ========== CARGAR USUARIO PARA FLASK-LOGIN ==========
+
 
 @login_manager.user_loader
 def cargar_usuario(id_usuario):
     return db.session.get(Usuario, int(id_usuario))
 
 
-# ========== RUTAS DE AUTENTICACIÓN ==========
 
 @app.route('/auth/registro', methods=['GET', 'POST'])
 def auth_registro():
@@ -217,7 +210,7 @@ def auth_registro():
 
     form = RegistroForm()
     if form.validate_on_submit():
-        # Verificar que el email no esté registrado
+
         email_existe = Usuario.query.filter_by(email=form.email.data).first()
         if email_existe:
             flash('Ese email ya está registrado. Inicia sesión.', 'danger')
@@ -225,7 +218,7 @@ def auth_registro():
             usuario = Usuario()
             usuario.nombre = form.nombre.data
             usuario.email = form.email.data
-            usuario.set_password(form.password.data)  # hash seguro
+            usuario.set_password(form.password.data) 
             db.session.add(usuario)
             db.session.commit()
             flash('¡Registro exitoso! Ya puedes iniciar sesión.', 'success')
@@ -261,24 +254,22 @@ def auth_logout():
     return redirect(url_for('auth_login'))
 
 
-# ========== RUTA PRINCIPAL (DASHBOARD) ==========
 
 @app.route('/')
 @app.route('/index')
 @login_required
 def main_index():
     """Panel principal con resumen del usuario."""
-    # Contadores del panel
+
     total_productos = Producto.query.filter_by(usuario_id=current_user.id, activo=True).count()
     total_pedidos = Pedido.query.filter_by(usuario_id=current_user.id).count()
     pagos_aprobados = Pago.query.filter_by(usuario_id=current_user.id, estado='aprobado').count()
 
-    # Total cobrado (solo importes SIMULADOS, no es dinero real)
+
     total_cobros = db.session.query(db.func.sum(Pago.importe)).filter(
         Pago.usuario_id == current_user.id, Pago.estado == 'aprobado'
     ).scalar() or 0.0
 
-    # Últimas transacciones, pedidos pendientes y productos recientes
     ultimas_transacciones = Pago.query.filter_by(usuario_id=current_user.id)\
         .order_by(Pago.fecha_creacion.desc()).limit(5).all()
     pedidos_pendientes = Pedido.query.filter_by(usuario_id=current_user.id, estado='pendiente')\
@@ -298,15 +289,13 @@ def main_index():
     )
 
 
-# ========== RUTAS DE PRODUCTOS ==========
-
 @app.route('/productos')
 @login_required
 def productos_lista():
     """Lista TODOS los productos propios (incluye los desactivados)."""
     productos = Producto.query.filter_by(usuario_id=current_user.id)
 
-    # Búsqueda opcional por nombre (?buscar=teclado)
+
     texto_busqueda = request.args.get('buscar', '').strip()
     if texto_busqueda:
         productos = productos.filter(Producto.nombre.ilike(f'%{texto_busqueda}%'))
@@ -324,7 +313,7 @@ def catalogo():
         Producto.activo == True
     )
 
-    # Búsqueda opcional por nombre
+
     texto_busqueda = request.args.get('buscar', '').strip()
     if texto_busqueda:
         productos = productos.filter(Producto.nombre.ilike(f'%{texto_busqueda}%'))
@@ -362,7 +351,7 @@ def productos_ver(producto_id):
     producto = db.get_or_404(Producto, producto_id)
     es_mio = producto.usuario_id == current_user.id
 
-    # Los productos inactivos de otros usuarios no se muestran
+
     if not es_mio and not producto.activo:
         flash('Este producto ya no está disponible.', 'warning')
         return redirect(url_for('catalogo'))
@@ -410,12 +399,12 @@ def productos_eliminar(producto_id):
         return redirect(url_for('productos_lista'))
 
     if producto.detalles:
-        # Tiene pedidos asociados: se desactiva en lugar de borrar
+
         producto.activo = False
         db.session.commit()
         flash('El producto tiene pedidos asociados. Se desactivó en lugar de eliminarlo.', 'warning')
     else:
-        # Sin pedidos: se elimina definitivamente
+
         db.session.delete(producto)
         db.session.commit()
         flash('Producto eliminado exitosamente.', 'success')
@@ -423,7 +412,7 @@ def productos_eliminar(producto_id):
     return redirect(url_for('productos_lista'))
 
 
-# ========== RUTAS DE PEDIDOS ==========
+
 
 @app.route('/pedidos/crear/<int:producto_id>', methods=['GET', 'POST'])
 @login_required
@@ -431,17 +420,17 @@ def pedidos_crear(producto_id):
     """Crea un pedido a partir de un producto del catálogo."""
     producto = db.get_or_404(Producto, producto_id)
 
-    # No se permite comprar productos propios
+
     if producto.usuario_id == current_user.id:
         flash('No puedes comprar tus propios productos.', 'danger')
         return redirect(url_for('productos_lista'))
 
-    # No se permiten productos desactivados
+
     if not producto.activo:
         flash('Este producto ya no está disponible.', 'warning')
         return redirect(url_for('catalogo'))
 
-    # Sin stock no se puede crear el pedido
+
     if producto.stock <= 0:
         flash('Este producto no tiene stock disponible.', 'danger')
         return redirect(url_for('catalogo'))
@@ -450,20 +439,20 @@ def pedidos_crear(producto_id):
     if form.validate_on_submit():
         cantidad = form.cantidad.data
 
-        # Verificar stock suficiente en el servidor
+
         if cantidad > producto.stock:
             flash(f'Stock insuficiente. Solo hay {producto.stock} unidades disponibles.', 'danger')
         else:
-            # Crear pedido con estado pendiente
+
             nuevo_pedido = Pedido(usuario_id=current_user.id, estado='pendiente')
             db.session.add(nuevo_pedido)
-            db.session.flush()  # obtiene el id del pedido recién creado
+            db.session.flush()  
 
             detalle = DetallePedido(
                 pedido_id=nuevo_pedido.id,
                 producto_id=producto.id,
                 cantidad=cantidad,
-                precio_unitario=producto.precio  # precio registrado al crear el pedido
+                precio_unitario=producto.precio 
             )
             db.session.add(detalle)
             db.session.commit()
@@ -496,7 +485,6 @@ def pedidos_ver(pedido_id):
     return render_template('pedidos/detalle.html', pedido=pedido)
 
 
-# ========== SIMULADOR DE PAGO ==========
 
 @app.route('/pagos/pagar/<int:pedido_id>', methods=['GET', 'POST'])
 @login_required
@@ -508,7 +496,7 @@ def pagos_pagar(pedido_id):
         flash('No tienes acceso a este pedido.', 'danger')
         return redirect(url_for('main_index'))
 
-    # Un pedido pagado no se puede pagar dos veces
+
     if pedido.estado == 'pagado':
         flash('Este pedido ya fue pagado. No se permite pagar dos veces.', 'warning')
         return redirect(url_for('pedidos_ver', pedido_id=pedido.id))
@@ -519,27 +507,27 @@ def pagos_pagar(pedido_id):
 
     form = PagoForm()
     if form.validate_on_submit():
-        resultado = form.resultado_demo.data  # aprobado, rechazado o pendiente
+        resultado = form.resultado_demo.data  
 
-        # El importe SIEMPRE se calcula en el servidor
+
         importe = pedido.calcular_total()
         producto = pedido.detalles[0].producto
 
         if resultado == 'aprobado':
-            # Verificar stock antes de aprobar
+
             if producto.stock < pedido.detalles[0].cantidad:
                 resultado = 'rechazado'
                 flash('Pago rechazado: no hay stock suficiente.', 'danger')
             else:
-                # Registrar el pago, marcar pedido como pagado y descontar stock UNA sola vez
+
                 pedido.estado = 'pagado'
                 producto.stock -= pedido.detalles[0].cantidad
                 flash('¡Pago aprobado! El pedido ha sido pagado (importe simulado).', 'success')
         elif resultado == 'rechazado':
-            # El pedido queda pendiente y NO se descuenta stock
+
             flash('Pago rechazado. El pedido continúa pendiente.', 'danger')
         else:
-            # Pago pendiente: el pedido no se marca como pagado
+            
             flash('Pago en estado pendiente. Consulta su estado más tarde.', 'info')
 
         pago = Pago(
@@ -567,7 +555,7 @@ def pagos_lista():
     return render_template('pagos/lista.html', pagos=pagos)
 
 
-# ========== PÁGINAS DE ERROR ==========
+
 
 @app.errorhandler(404)
 def not_found_error(error):
@@ -584,7 +572,7 @@ def internal_error(error):
     return render_template('errores/500.html'), 500
 
 
-# ========== INICIALIZACIÓN ==========
+
 
 def crear_base_datos():
     """Crea las tablas y un usuario de prueba si no existen."""
@@ -592,7 +580,7 @@ def crear_base_datos():
     with app.app_context():
         db.create_all()
 
-        # Usuario de prueba para la demostración
+
         if not Usuario.query.filter_by(email='test@test.com').first():
             usuario = Usuario()
             usuario.nombre = 'Usuario de Prueba'

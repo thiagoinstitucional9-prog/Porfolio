@@ -1,0 +1,77 @@
+{% extends "core/base.html" %}
+
+{% block titulo %}Viajes encontrados · METRO{% endblock %}
+
+{% block contenido %}
+<section class="pagina">
+  <div class="contenedor">
+    <header class="pagina-cabecera">
+      <p class="kicker">Resultados</p>
+      <h1>{% if destino %}Salidas hacia {{ destino }}{% else %}Salidas disponibles{% endif %}</h1>
+    </header>
+
+    {% include "core/_buscador.html" with compacto=True %}
+
+    <div class="resumen">
+      <p>
+        {% if origen %}<strong>{{ origen }}</strong> <svg class="icono"><use href="#ic-flecha"/></svg> {% endif %}
+        <strong>{{ destino }}</strong>
+        {% if fecha_legible %} · {{ fecha_legible }}{% endif %}
+        · {{ pasajeros }} pasajero{{ pasajeros|pluralize }}
+        · <strong>{{ viajes|length }}</strong> salida{{ viajes|pluralize }}
+      </p>
+      <p class="nota-suave">La búsqueda muestra viajes de ida; el regreso se
+         reserva junto al pasaje.</p>
+    </div>
+
+    {% if viajes %}
+    <div class="viajes-lista">
+      {% for viaje in viajes %}
+      <article class="viaje-card">
+        <div class="viaje-horas">
+          <p class="viaje-hora">{{ viaje.hora }}</p>
+          <p class="viaje-trayecto"><span>{{ viaje.duracion }}</span></p>
+          <p class="viaje-hora viaje-hora-menor">
+            {{ viaje.hora_llegada }}
+            {% if viaje.llegada_dia_siguiente %}<small>+1 día</small>{% endif %}
+          </p>
+        </div>
+
+        <div class="viaje-info">
+          <p class="viaje-ruta">
+            {{ viaje.origen }}
+            <svg class="icono"><use href="#ic-flecha"/></svg>
+            {{ viaje.destino }}
+          </p>
+          <p class="viaje-meta">{{ viaje.dia_largo }} · Servicio {{ viaje.clase }}
+             · Quedan {{ viaje.asientos }} butacas</p>
+        </div>
+
+        <div class="viaje-precio">
+          <p class="precio">Por pasajero<strong>${{ viaje.precio_txt }}</strong></p>
+          <p class="viaje-total">Total {{ pasajeros }} pasajero{{ pasajeros|pluralize }}:
+             ${{ viaje.total_txt }}</p>
+          <a class="btn btn-rojo"
+             href="{% url 'core:comprar' viaje.id %}?pasajeros={{ pasajeros }}">
+            Elegir este viaje
+          </a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+
+    {% else %}
+    <div class="vacio">
+      <h2>No encontramos salidas para esa búsqueda</h2>
+      <p>Probá con otra fecha, o mirá estos destinos con salidas diarias:</p>
+      <ul class="vacio-enlaces">
+        {% for destino in destinos|slice:":4" %}
+        <li><a href="{% url 'core:buscar' %}?origen={{ destino.origen|urlencode }}&amp;destino={{ destino.nombre|urlencode }}">{{ destino.nombre }}</a></li>
+        {% endfor %}
+      </ul>
+      <a class="btn btn-rojo" href="{% url 'core:inicio' %}#buscador">Modificar búsqueda</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "core/base.html" %}
+
+{% block titulo %}Resumen del viaje · METRO{% endblock %}
+
+{% block contenido %}
+<section class="pagina">
+  <div class="contenedor contenedor-angosto">
+
+    <header class="pagina-cabecera">
+      <p class="kicker">Viaje elegido</p>
+      <h1>Resumen de tu viaje</h1>
+    </header>
+
+    <article class="resumen-card">
+      <p class="viaje-ruta">
+        {{ viaje.origen }}
+        <svg class="icono"><use href="#ic-flecha"/></svg>
+        {{ viaje.destino }}
+      </p>
+      <p class="viaje-meta">{{ viaje.dia_largo }} · Servicio {{ viaje.clase }}</p>
+
+      <dl class="resumen-datos">
+        <div><dt>Salida</dt><dd>{{ viaje.hora }} hs</dd></div>
+        <div>
+          <dt>Llegada</dt>
+          <dd>{{ viaje.hora_llegada }} hs{% if viaje.llegada_dia_siguiente %} <small>(+1 día)</small>{% endif %}</dd>
+        </div>
+        <div><dt>Duración</dt><dd>{{ viaje.duracion }}</dd></div>
+        <div><dt>Butacas disponibles</dt><dd>{{ viaje.asientos }}</dd></div>
+        <div><dt>Pasajeros</dt><dd>{{ pasajeros }}</dd></div>
+        <div><dt>Precio por pasajero</dt><dd>${{ viaje.precio_txt }}</dd></div>
+        <div class="resumen-total"><dt>Total estimado</dt><dd>${{ total_txt }}</dd></div>
+      </dl>
+    </article>
+
+    <div class="aviso">
+      <h2>La compra online se habilita próximamente</h2>
+      <p>Este resumen ya tenés listo: guardalo y, para confirmar la reserva
+         y abonar, comunicate con nuestro centro de ventas indicando destino,
+         fecha y cantidad de pasajeros. Todavía no aceptamos pagos por el
+         sitio.</p>
+      <div class="aviso-acciones">
+        <a class="btn btn-rojo" href="tel:+541143127788">
+          <svg class="icono"><use href="#ic-telefono"/></svg>
+          Llamar al +54 11 4312-7788
+        </a>
+        <a class="btn btn-oscuro" href="https://wa.me/549115556387" target="_blank" rel="noopener">
+          <svg class="icono"><use href="#ic-whatsapp"/></svg>
+          Escribir por WhatsApp
+        </a>
+      </div>
+      <a class="volver" href="{% url 'core:buscar' %}?origen={{ viaje.origen|urlencode }}&amp;destino={{ viaje.destino|urlencode }}&amp;fecha={{ viaje.fecha_iso }}&amp;pasajeros={{ pasajeros }}">
+        ← Volver a los resultados
+      </a>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

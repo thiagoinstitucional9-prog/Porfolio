@@ -5,7 +5,7 @@
 {% block content %}
 <div class="card">
     <h2>Simular Pago - Pedido #{{ pedido.id }}</h2>
-    
+        
     {% if pedido.detalles %}
     <p><strong>Producto:</strong> {{ pedido.detalles[0].producto.nombre }}</p>
     <p><strong>Cantidad:</strong> {{ pedido.detalles[0].cantidad }}</p>
@@ -32,9 +32,7 @@
         
         <button type="submit" style="width: 100%; margin-top: 20px;">Simular pago</button>
     </form>
-
-    <!-- Volver sin usar el botón del navegador.
-         Después de simular, el resultado se muestra en el detalle del pedido. -->
+    
     <div class="menu-volver menu-volver-centrado">
         <a href="{{ url_for('pedidos_ver', pedido_id=pedido.id) }}">Volver al pedido</a>
         <a href="{{ url_for('pedidos_lista') }}">Volver a pedidos</a>

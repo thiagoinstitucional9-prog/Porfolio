@@ -1,0 +1,41 @@
+{# Formulario de búsqueda. Se reutiliza en la home y en los resultados. #}
+<form class="buscador{% if compacto %} buscador-compacto{% endif %}"
+      action="{% url 'core:buscar' %}" method="get">
+  <div class="buscador-campos">
+    <div class="campo">
+      <label for="campo-origen">Origen</label>
+      <input list="lista-ciudades" id="campo-origen" name="origen"
+             value="{{ origen }}" placeholder="Desde dónde salís" required>
+    </div>
+    <div class="campo">
+      <label for="campo-destino">Destino</label>
+      <input list="lista-ciudades" id="campo-destino" name="destino"
+             value="{{ destino }}" placeholder="A dónde vas" required>
+    </div>
+    <div class="campo">
+      <label for="campo-fecha">Fecha de ida</label>
+      <input type="date" id="campo-fecha" name="fecha"
+             value="{{ fecha }}" min="{{ hoy }}" required>
+    </div>
+    <div class="campo">
+      <label for="campo-vuelta">Fecha de vuelta <span class="etiqueta-suave">opcional</span></label>
+      <input type="date" id="campo-vuelta" name="vuelta"
+             value="{{ vuelta }}" min="{{ hoy }}">
+    </div>
+    <div class="campo campo-pasajeros">
+      <label for="campo-pasajeros">Pasajeros</label>
+      <input type="number" id="campo-pasajeros" name="pasajeros"
+             value="{{ pasajeros|default:'1' }}" min="1" max="9">
+    </div>
+  </div>
+
+  <datalist id="lista-ciudades">
+    {% for ciudad in ciudades %}
+    <option value="{{ ciudad }}"></option>
+    {% endfor %}
+  </datalist>
+
+  <button class="btn btn-rojo buscador-boton" type="submit">
+    Buscar viajes <svg class="icono"><use href="#ic-flecha"/></svg>
+  </button>
+</form>

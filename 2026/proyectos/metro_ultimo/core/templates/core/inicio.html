@@ -1,0 +1,147 @@
+{% extends "core/base.html" %}
+{% load static %}
+
+{% block titulo %}METRO · Tu próximo destino empieza acá{% endblock %}
+
+{% block contenido %}
+
+<!-- ============ Hero ============ -->
+<section class="hero">
+  <div class="contenedor hero-inner">
+    <div class="hero-texto">
+      <p class="kicker">Pasajes de larga distancia</p>
+      <h1>Tu próximo destino <span>empieza acá</span></h1>
+      <p class="hero-bajada">
+        Butacas cama, aire acondicionado y salidas puntuales todos los días
+        desde Retiro hacia más de 60 destinos de todo el país.
+      </p>
+      <div class="hero-acciones">
+        <a class="btn btn-rojo btn-grande" href="#buscador">
+          Comprar pasajes <svg class="icono"><use href="#ic-flecha"/></svg>
+        </a>
+        <a class="btn btn-fantasma btn-grande" href="#destinos">Ver destinos</a>
+      </div>
+      <ul class="hero-datos">
+        <li><strong>+1.200</strong><span>frecuencias diarias</span></li>
+        <li><strong>30 años</strong><span>en la ruta</span></li>
+        <li><strong>4,8 ★</strong><span>valoración de pasajeros</span></li>
+      </ul>
+    </div>
+    <div class="hero-media">
+      <img src="{% static 'core/img/colectivo.svg' %}"
+           alt="Colectivo de larga distancia METRO viajando por la ruta">
+    </div>
+  </div>
+</section>
+
+<!-- ============ Buscador ============ -->
+<section class="buscador-seccion" id="buscador">
+  <div class="contenedor">
+    {% include "core/_buscador.html" %}
+  </div>
+</section>
+
+<!-- ============ Destinos populares ============ -->
+<section class="seccion" id="destinos">
+  <div class="contenedor">
+    <header class="seccion-cabecera">
+      <p class="kicker">Destinos populares</p>
+      <h2>Los viajes que más se compran</h2>
+      <p class="seccion-bajada">Elegí tu destino y mirá las próximas salidas
+         con precio final.</p>
+    </header>
+
+    <div class="destinos-grid">
+      {% for destino in destinos %}
+      <article class="destino-card">
+        <div class="destino-media {{ destino.estilo }}">
+          <svg class="destino-icono"><use href="#{{ destino.icono }}"/></svg>
+          <span class="destino-tag">{{ destino.provincia }}</span>
+        </div>
+        <div class="destino-cuerpo">
+          <h3>{{ destino.nombre }}</h3>
+          <p class="destino-bajada">{{ destino.bajada }}</p>
+          <div class="destino-datos">
+            <span><svg class="icono"><use href="#ic-reloj"/></svg> {{ destino.duracion }}</span>
+            <span>Salidas diarias</span>
+          </div>
+          <div class="destino-pie">
+            <p class="precio">Desde<strong>${{ destino.desde_txt }}</strong></p>
+            <a class="btn btn-rojo"
+               href="{% url 'core:buscar' %}?origen={{ destino.origen|urlencode }}&amp;destino={{ destino.nombre|urlencode }}">
+              Ver viajes
+            </a>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ Promociones ============ -->
+<section class="seccion seccion-oscura" id="promociones">
+  <div class="contenedor">
+    <header class="seccion-cabecera">
+      <p class="kicker">Promociones y ofertas</p>
+      <h2>Viajá por menos</h2>
+      <p class="seccion-bajada">Descuentos y beneficios vigentes para todos
+         los servicios de larga distancia.</p>
+    </header>
+
+    <div class="promos-grid">
+      {% for promo in promociones %}
+      <article class="promo-card">
+        <span class="promo-badge">{{ promo.descuento }}</span>
+        <h3>{{ promo.titulo }}</h3>
+        <p>{{ promo.bajada }}</p>
+        <details class="promo-detalles">
+          <summary>Ver condiciones</summary>
+          <p>{{ promo.condiciones }}</p>
+        </details>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ Beneficios ============ -->
+<section class="seccion" id="beneficios">
+  <div class="contenedor">
+    <header class="seccion-cabecera">
+      <p class="kicker">Por qué viajar con METRO</p>
+      <h2>Todo lo que buscás en un viaje por tierra</h2>
+    </header>
+
+    <div class="beneficios-grid">
+      {% for beneficio in beneficios %}
+      <article class="beneficio">
+        <span class="beneficio-icono">
+          <svg class="icono"><use href="#{{ beneficio.icono }}"/></svg>
+        </span>
+        <h3>{{ beneficio.titulo }}</h3>
+        <p>{{ beneficio.texto }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- ============ Llamada final ============ -->
+<section class="cta-final">
+  <div class="contenedor cta-final-inner">
+    <div>
+      <h2>Comprá tu pasaje en tres pasos</h2>
+      <p>Buscá tu viaje, elegí el horario y recibí el boleto en tu celular.
+         ¿Preferís hablar con alguien? Atendemos las 24 horas.</p>
+    </div>
+    <div class="cta-final-acciones">
+      <a class="btn btn-rojo btn-grande" href="#buscador">Buscar mi viaje</a>
+      <a class="btn btn-fantasma btn-grande" href="tel:+541143127788">
+        Llamar ahora
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

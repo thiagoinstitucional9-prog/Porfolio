@@ -1,0 +1,246 @@
+/* ---------- 1. Paleta y base ---------- */
+:root {
+    --rojo: #e10600;
+    --rojo-oscuro: #b30500;
+    --rojo-suave: #ff2f28;
+    --negro: #0d0d10;
+    --negro-2: #17171d;
+    --blanco: #ffffff;
+    --gris: #f4f4f7;
+    --borde: #e3e3ea;
+    --texto: #33333d;
+    --texto-suave: #6c6c7a;
+    --radio: 14px;
+    --sombra: 0 18px 45px rgba(10, 10, 20, .14);
+    --fuente: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: var(--fuente);
+    color: var(--texto);
+    background: var(--blanco);
+    line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+    margin: 0 0 .5em;
+    color: var(--negro);
+    line-height: 1.15;
+}
+
+p {
+    margin: 0 0 1em;
+}
+
+a {
+    color: inherit;
+}
+
+.contenedor {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.kicker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 14px;
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--rojo-suave);
+}
+
+.kicker::before {
+    content: "";
+    width: 26px;
+    height: 3px;
+    background: var(--rojo-suave);
+}
+
+/* ---------- 2. Botones ---------- */
+.btn {
+    display: inline-block;
+    padding: .72rem 1.3rem;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    font: inherit;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-rojo {
+    background: var(--rojo);
+    color: var(--blanco);
+}
+
+.btn-rojo:hover {
+    background: var(--rojo-oscuro);
+}
+
+.btn-fantasma {
+    border-color: rgba(255, 255, 255, .45);
+    color: var(--blanco);
+}
+
+.btn-fantasma:hover {
+    background: var(--blanco);
+    color: var(--negro);
+}
+
+.btn-grande {
+    padding: 1rem 1.8rem;
+    font-size: 1.05rem;
+}
+
+/* ---------- 3. Encabezado ---------- */
+.barra-superior {
+    background: var(--negro);
+    color: #c9c9d4;
+    font-size: .82rem;
+}
+
+.barra-superior-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    justify-content: space-between;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.barra-superior a {
+    color: #c9c9d4;
+    text-decoration: none;
+    margin-left: 18px;
+}
+
+.barra-superior a:hover {
+    color: var(--rojo-suave);
+}
+
+.cabecera {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--blanco);
+    border-bottom: 1px solid var(--borde);
+    box-shadow: 0 4px 18px rgba(10, 10, 20, .06);
+}
+
+.cabecera-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+
+.logo-caja {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    background: var(--rojo);
+    color: var(--blanco);
+    border-radius: 11px;
+    font-size: 1.5rem;
+    font-weight: 900;
+    box-shadow: 0 6px 16px rgba(225, 6, 0, .35);
+}
+
+.logo-texto {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.35rem;
+    font-weight: 900;
+    letter-spacing: .06em;
+    color: var(--negro);
+    line-height: 1;
+}
+
+.logo-texto small {
+    font-size: .6rem;
+    font-weight: 700;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--texto-suave);
+    margin-top: 4px;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+}
+
+.nav>a {
+    font-weight: 600;
+    color: var(--texto);
+    text-decoration: none;
+}
+
+.nav>a:hover {
+    color: var(--rojo);
+}
+
+.nav .btn-rojo {
+    color: var(--blanco);
+}
+
+/* ---------- 4. Hero ---------- */
+.hero {
+    background:
+        radial-gradient(circle at 78% 20%, rgba(225, 6, 0, .35), transparent 45%),
+        linear-gradient(160deg, #101014 0%, #1b1b23 55%, #26070a 100%);
+    color: var(--blanco);
+}
+
+.hero-inner {
+    padding-top: 76px;
+    padding-bottom: 110px;
+}
+
+.hero h1 {
+    color: var(--blanco);
+    font-size: clamp(2.4rem, 4.6vw, 3.7rem);
+    font-weight: 900;
+    letter-spacing: -.02em;
+    margin-bottom: .35em;
+}
+
+.hero h1 span {
+    color: var(--rojo-suave);
+}
+
+.hero-bajada {
+    font-size: 1.12rem;
+    color: #cfcfd9;
+    max-width: 34em;
+    margin-bottom: 1.7em;
+}
+
+.hero-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}

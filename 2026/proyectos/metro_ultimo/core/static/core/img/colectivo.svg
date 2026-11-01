@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="Colectivo de larga distancia en la ruta">
+  <defs>
+    <linearGradient id="cielo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#151019"/>
+      <stop offset=".55" stop-color="#4b1013"/>
+      <stop offset="1" stop-color="#120c10"/>
+    </linearGradient>
+    <linearGradient id="ventana" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#41506a"/>
+      <stop offset="1" stop-color="#1b2230"/>
+    </linearGradient>
+    <linearGradient id="carroceria" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#d9d9e0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Cielo nocturno con brillo rojo -->
+  <rect width="720" height="480" fill="url(#cielo)"/>
+  <g fill="#ffffff" opacity=".55">
+    <circle cx="70" cy="58" r="2"/>
+    <circle cx="175" cy="38" r="1.5"/>
+    <circle cx="300" cy="66" r="1.5"/>
+    <circle cx="430" cy="34" r="2"/>
+    <circle cx="640" cy="70" r="1.5"/>
+    <circle cx="690" cy="130" r="2"/>
+  </g>
+
+  <!-- Sol / luna roja -->
+  <circle cx="590" cy="130" r="60" fill="#e10600"/>
+  <circle cx="590" cy="130" r="84" fill="none" stroke="#e10600" stroke-opacity=".3" stroke-width="3"/>
+  <circle cx="590" cy="130" r="108" fill="none" stroke="#e10600" stroke-opacity=".15" stroke-width="2"/>
+
+  <!-- Cerros lejanos -->
+  <path d="M0 300 L110 185 L200 272 L310 168 L430 300 Z" fill="#161019"/>
+  <path d="M320 300 L430 205 L520 282 L615 220 L720 300 Z" fill="#0f0b12"/>
+
+  <!-- Ruta -->
+  <rect x="0" y="300" width="720" height="180" fill="#151116"/>
+  <rect x="0" y="300" width="720" height="7" fill="#2c2430"/>
+  <g fill="#e10600" opacity=".9">
+    <rect x="30" y="440" width="82" height="9" rx="4"/>
+    <rect x="180" y="440" width="82" height="9" rx="4"/>
+    <rect x="330" y="440" width="82" height="9" rx="4"/>
+    <rect x="480" y="440" width="82" height="9" rx="4"/>
+    <rect x="630" y="440" width="82" height="9" rx="4"/>
+  </g>
+
+  <!-- Líneas de velocidad -->
+  <g fill="#ffffff" opacity=".16">
+    <rect x="18" y="168" width="84" height="7" rx="3"/>
+    <rect x="0" y="204" width="58" height="7" rx="3"/>
+    <rect x="34" y="240" width="46" height="7" rx="3"/>
+  </g>
+
+  <!-- Sombra del colectivo -->
+  <ellipse cx="370" cy="404" rx="252" ry="20" fill="#000000" opacity=".45"/>
+
+  <!-- Ruedas (detrás de la carrocería) -->
+  <g>
+    <circle cx="222" cy="352" r="40" fill="#121015"/>
+    <circle cx="222" cy="352" r="19" fill="#8f8f9c"/>
+    <circle cx="222" cy="352" r="7" fill="#3a3a44"/>
+    <circle cx="524" cy="352" r="40" fill="#121015"/>
+    <circle cx="524" cy="352" r="19" fill="#8f8f9c"/>
+    <circle cx="524" cy="352" r="7" fill="#3a3a44"/>
+  </g>
+
+  <!-- Carrocería -->
+  <g>
+    <rect x="106" y="158" width="504" height="176" rx="26" fill="url(#carroceria)"/>
+    <!-- Techo más oscuro -->
+    <path d="M132 158 h452 a26 26 0 0 1 26 26 v6 H106 v-6 a26 26 0 0 1 26 -26 z" fill="#c9c9d2"/>
+
+    <!-- Ventanillas -->
+    <g fill="url(#ventana)">
+      <rect x="136" y="198" width="72" height="64" rx="9"/>
+      <rect x="220" y="198" width="72" height="64" rx="9"/>
+      <rect x="304" y="198" width="72" height="64" rx="9"/>
+      <rect x="388" y="198" width="72" height="64" rx="9"/>
+      <path d="M478 198 h64 a16 16 0 0 1 15 11 l8 53 h-95 z"/>
+    </g>
+    <!-- Reflejos en las ventanillas -->
+    <g fill="#ffffff" opacity=".14">
+      <path d="M144 254 l22 -50 h12 l-22 50 z"/>
+      <path d="M228 254 l22 -50 h12 l-22 50 z"/>
+      <path d="M312 254 l22 -50 h12 l-22 50 z"/>
+      <path d="M396 254 l22 -50 h12 l-22 50 z"/>
+    </g>
+
+    <!-- Franja roja -->
+    <rect x="106" y="274" width="504" height="34" fill="#e10600"/>
+    <text x="340" y="299" font-family="Arial, Helvetica, sans-serif"
+          font-size="23" font-weight="700" fill="#ffffff"
+          text-anchor="middle" letter-spacing="8">METRO</text>
+
+    <!-- Compartimiento de equipaje -->
+    <g stroke="#c4c4ce" stroke-width="4" stroke-linecap="round">
+      <line x1="150" y1="322" x2="470" y2="322"/>
+    </g>
+
+    <!-- Óptica delantera y paragolpe -->
+    <rect x="596" y="246" width="14" height="24" rx="6" fill="#ffd84d"/>
+    <rect x="596" y="316" width="14" height="16" rx="5" fill="#e10600"/>
+    <rect x="102" y="316" width="18" height="16" rx="5" fill="#e10600"/>
+  </g>
+
+  <!-- Faro: haz de luz -->
+  <path d="M612 252 L720 214 L720 292 L612 268 Z" fill="#ffd84d" opacity=".18"/>
+</svg>

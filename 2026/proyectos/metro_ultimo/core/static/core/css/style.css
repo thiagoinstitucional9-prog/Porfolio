@@ -1,15 +1,3 @@
-/* ==================================================================
-   METRO · Larga distancia
-   Paleta: negro, blanco y rojo.
-   1. Base          5. Tarjetas de destino
-   2. Encabezado    6. Promociones
-   3. Hero          7. Beneficios y CTA
-   4. Buscador      8. Resultados y compra
-                    9. Pie de página
-                    10. Celulares
-   ================================================================== */
-
-/* ---------- 1. Base ---------- */
 :root {
   --rojo: #e10600;
   --rojo-oscuro: #b30500;
@@ -65,7 +53,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 .kicker--claro { color: var(--rojo-suave); }
 .kicker--claro::before { background: var(--rojo-suave); }
 
-/* Botones */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
   padding: .72rem 1.3rem;
@@ -83,7 +70,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 .btn-fantasma:hover { background: var(--blanco); color: var(--negro); border-color: var(--blanco); }
 .btn-grande { padding: 1rem 1.8rem; font-size: 1.05rem; }
 
-/* ---------- 2. Encabezado ---------- */
 .barra-superior {
   background: var(--negro);
   color: #c9c9d4;
@@ -151,7 +137,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 .menu-toggle .icono { width: 28px; height: 28px; }
 
-/* ---------- 3. Hero ---------- */
 .hero {
   position: relative; overflow: hidden;
   background:
@@ -195,8 +180,6 @@ ul { margin: 0; padding: 0; list-style: none; }
   width: 100%; border-radius: 20px;
   box-shadow: 0 30px 60px rgba(0,0,0,.45);
 }
-
-/* ---------- 4. Buscador ---------- */
 .buscador-seccion { position: relative; z-index: 10; margin-top: -74px; }
 
 .buscador {
@@ -238,11 +221,9 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 .buscador-boton { justify-self: end; margin-top: 18px; padding-left: 2.6rem; padding-right: 2.6rem; }
 
-/* Versión compacta (página de resultados) */
 .buscador-compacto { margin-bottom: 28px; border-radius: var(--radio); padding: 20px; box-shadow: none; border: 1px solid var(--borde); border-top: 5px solid var(--rojo); }
 .buscador-compacto .buscador-campos { grid-template-columns: 1fr 1fr 1fr 1fr .55fr; }
 
-/* ---------- Secciones ---------- */
 .seccion { padding: 86px 0; }
 .seccion-oscura {
   background: var(--negro);
@@ -259,7 +240,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 .seccion-bajada { color: inherit; opacity: .85; font-size: 1.05rem; margin: 0; }
 
-/* ---------- 5. Tarjetas de destino ---------- */
 .destinos-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -323,7 +303,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 .precio { margin: 0; font-size: .78rem; color: var(--texto-suave); text-transform: uppercase; letter-spacing: .06em; }
 .precio strong { display: block; font-size: 1.4rem; font-weight: 900; color: var(--negro); letter-spacing: 0; text-transform: none; }
 
-/* ---------- 6. Promociones ---------- */
 .promos-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
 .promo-card {
   position: relative;
@@ -356,7 +335,6 @@ ul { margin: 0; padding: 0; list-style: none; }
   border-left: 3px solid var(--rojo); padding-left: 10px;
 }
 
-/* ---------- 7. Beneficios y CTA ---------- */
 .beneficios-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
 .beneficio-icono {
   display: grid; place-items: center;
@@ -383,7 +361,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 .cta-final p { max-width: 44em; margin: 0; }
 .cta-final-acciones { display: flex; flex-wrap: wrap; gap: 14px; }
 
-/* ---------- 8. Resultados y compra ---------- */
 .pagina { background: var(--gris); padding: 54px 0 90px; min-height: 60vh; }
 .pagina-cabecera { margin-bottom: 26px; }
 .pagina-cabecera h1 { font-size: clamp(1.7rem, 3vw, 2.3rem); font-weight: 900; }
@@ -494,7 +471,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 .volver { font-size: .92rem; font-weight: 700; color: var(--rojo); text-decoration: none; }
 .volver:hover { text-decoration: underline; }
 
-/* ---------- 9. Pie de página ---------- */
 .pie { background: var(--negro); color: #a9a9b6; padding-top: 60px; }
 .pie-grid {
   display: grid;
@@ -525,7 +501,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 .pie-bottom p { margin: 0; }
 .pie-nota { color: #7d7d8a; }
 
-/* ---------- 10. Celulares ---------- */
 @media (max-width: 1020px) {
   .buscador-campos,
   .buscador-compacto .buscador-campos { grid-template-columns: 1fr 1fr; }
@@ -575,4 +550,86 @@ ul { margin: 0; padding: 0; list-style: none; }
   .resumen-datos { grid-template-columns: 1fr 1fr; }
   .pie-grid { grid-template-columns: 1fr; gap: 30px; }
   .aviso-acciones .btn, .cta-final-acciones .btn { width: 100%; }
+}
+
+/* ---------- 11. Cuenta: ingresar y registrarse ---------- */
+.nav-usuario {
+  font-size: .92rem;
+  color: var(--texto-suave);
+}
+.nav-usuario strong { color: var(--negro); }
+
+.auth-card {
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--blanco);
+  border-top: 5px solid var(--rojo);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 34px;
+}
+.auth-card h1 { font-size: 2rem; font-weight: 900; }
+.auth-bajada { color: var(--texto-suave); margin-bottom: 1.6em; }
+
+.form-auth p {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0 0 16px;
+}
+.form-auth label {
+  font-size: .74rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--negro);
+}
+.form-auth input {
+  width: 100%;
+  padding: .8rem .9rem;
+  border: 1.5px solid var(--borde);
+  border-radius: 10px;
+  background: var(--gris);
+  font: inherit;
+  color: var(--negro);
+  transition: border-color .15s, background .15s;
+}
+.form-auth input:focus {
+  outline: none;
+  border-color: var(--rojo);
+  background: var(--blanco);
+  box-shadow: 0 0 0 3px rgba(225, 6, 0, .15);
+}
+.form-auth .helptext {
+  display: block;
+  font-size: .8rem;
+  color: var(--texto-suave);
+}
+.form-auth .helptext ul {
+  list-style: disc;
+  padding-left: 18px;
+}
+.form-auth .errorlist {
+  padding: 10px 14px;
+  margin: 0 0 6px;
+  background: #fdeceb;
+  border-left: 4px solid var(--rojo);
+  border-radius: 8px;
+  color: var(--rojo-oscuro);
+  font-size: .88rem;
+}
+.auth-boton { width: 100%; margin-top: 6px; }
+
+.auth-pie {
+  margin: 18px 0 0;
+  text-align: center;
+  font-size: .92rem;
+  color: var(--texto-suave);
+}
+.auth-pie a { color: var(--rojo); font-weight: 700; text-decoration: none; }
+.auth-pie a:hover { text-decoration: underline; }
+
+@media (max-width: 760px) {
+  .nav-usuario { padding: 10px 0 2px; }
+  .auth-card { padding: 24px; }
 }

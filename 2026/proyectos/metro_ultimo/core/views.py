@@ -3,8 +3,10 @@ contexto y devuelven una plantilla."""
 
 from datetime import date
 
+from django.contrib.auth import login, logout
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from . import data
 
@@ -88,3 +90,28 @@ def comprar(request, viaje_id):
         "fecha": viaje["fecha_iso"],
     }
     return render(request, "core/comprar.html", contexto)
+
+
+def ingresar(request):
+    """Inicio de sesión con el formulario que ya trae Django."""
+    form = AuthenticationForm(request, data=request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        login(request, form.get_user())
+        return redirect("core:inicio")
+    return render(request, "core/ingresar.html", {"form": form})
+
+
+def registrarse(request):
+    """Crea un usuario nuevo y lo deja con la sesión iniciada."""
+    form = UserCreationForm(request.POST or None)
+    if request.method == "POST" and form.is_valid():
+        usuario = form.save()
+        login(request, usuario)
+        return redirect("core:inicio")
+    return render(request, "core/registrarse.html", {"form": form})
+
+
+def salir(request):
+    """Cierra la sesión y vuelve a la página principal."""
+    logout(request)
+    return redirect("core:inicio")

@@ -1,0 +1,25 @@
+{% extends "core/base.html" %}
+
+{% block titulo %}Crear cuenta · METRO{% endblock %}
+
+{% block contenido %}
+<section class="pagina">
+  <div class="contenedor contenedor-angosto">
+    <div class="auth-card">
+      <p class="kicker">Mi cuenta</p>
+      <h1>Crear cuenta</h1>
+      <p class="auth-bajada">Registrate para comprar y consultar tus pasajes.</p>
+
+      <form method="post" class="form-auth">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-rojo auth-boton" type="submit">Registrarme</button>
+      </form>
+
+      <p class="auth-pie">
+        ¿Ya tenés cuenta? <a href="{% url 'core:ingresar' %}">Ingresá</a>
+      </p>
+    </div>
+  </div>
+</section>
+{% endblock %}

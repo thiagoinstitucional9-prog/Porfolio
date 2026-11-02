@@ -1,4 +1,3 @@
-// Menú del celular: abre y cierra la navegación.
 const boton = document.querySelector(".menu-toggle");
 const nav = document.querySelector(".nav");
 
@@ -15,7 +14,6 @@ if (boton && nav) {
   });
 }
 
-// La fecha de vuelta nunca puede ser anterior a la de ida.
 const formularios = document.querySelectorAll("form.buscador");
 formularios.forEach((form) => {
   const ida = form.querySelector("[name='fecha']");

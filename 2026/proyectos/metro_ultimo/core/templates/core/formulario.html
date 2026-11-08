@@ -1,0 +1,28 @@
+{% extends "core/base.html" %}
+
+{% block titulo %}{{ titulo }} · METRO{% endblock %}
+
+{% block contenido %}
+<section class="pagina">
+  <div class="contenedor contenedor-angosto">
+    <div class="auth-card">
+      <p class="kicker">Carga</p>
+      <h1>{{ titulo }}</h1>
+      {% if descripcion %}
+      <p class="auth-bajada">{{ descripcion }}</p>
+      {% else %}
+      <p class="auth-bajada">Completá los datos y guardá los cambios.</p>
+      {% endif %}
+
+      <form method="post" class="form-auth">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-acciones">
+          <button type="submit" class="btn btn-rojo">Guardar</button>
+          <a class="btn btn-oscuro" href="{{ url_volver }}">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

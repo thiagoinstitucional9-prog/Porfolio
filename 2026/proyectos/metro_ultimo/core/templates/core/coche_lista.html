@@ -1,0 +1,56 @@
+{% extends "core/base.html" %}
+
+{% block titulo %}Coches · METRO{% endblock %}
+
+{% block contenido %}
+<section class="pagina">
+  <div class="contenedor">
+    <header class="pagina-cabecera">
+      <p class="kicker">Listado</p>
+      <h1>Coches</h1>
+    </header>
+
+    <div class="panel">
+      <div class="panel-cabecera">
+        <p class="panel-nota">Coches registrados en la flota.</p>
+        {% if puede_agregar %}
+        <a class="btn btn-rojo" href="{{ url_crear }}">Agregar</a>
+        {% endif %}
+      </div>
+
+      <table class="panel-tabla">
+        <thead>
+          <tr>
+            <th>Patente</th>
+            <th>Modelo</th>
+            <th>Capacidad</th>
+            <th>Cochera</th>
+            <th>Línea</th>
+            {% if puede_editar %}<th>Acciones</th>{% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for coche in objetos %}
+          <tr>
+            <td>{{ coche.patente }}</td>
+            <td>{{ coche.modelo }}</td>
+            <td>{{ coche.capacidad }}</td>
+            <td>{{ coche.cochera|default:"Sin asignar" }}</td>
+            <td>{{ coche.linea|default:"Sin asignar" }}</td>
+            {% if puede_editar %}
+            <td><a href="{% url url_editar coche.pk %}">Editar</a></td>
+            {% endif %}
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="{% if puede_editar %}6{% else %}5{% endif %}">
+              No hay coches todavía.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

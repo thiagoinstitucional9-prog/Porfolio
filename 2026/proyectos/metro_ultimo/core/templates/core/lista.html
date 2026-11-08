@@ -1,0 +1,46 @@
+{% extends "core/base.html" %}
+
+{% block titulo %}{{ titulo }} · METRO{% endblock %}
+
+{% block contenido %}
+<section class="pagina">
+  <div class="contenedor">
+    <header class="pagina-cabecera">
+      <p class="kicker">Listado</p>
+      <h1>{{ titulo }}</h1>
+    </header>
+
+    <div class="panel">
+      <div class="panel-cabecera">
+        <p class="panel-nota">Registros cargados en el sistema.</p>
+        {% if puede_agregar %}
+        <a class="btn btn-rojo" href="{{ url_crear }}">Agregar</a>
+        {% endif %}
+      </div>
+
+      <table class="panel-tabla">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            {% if puede_editar %}<th>Acciones</th>{% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for objeto in objetos %}
+          <tr>
+            <td>{{ objeto }}</td>
+            {% if puede_editar %}
+            <td><a href="{% url url_editar objeto.pk %}">Editar</a></td>
+            {% endif %}
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="{% if puede_editar %}2{% else %}1{% endif %}">No hay registros todavía.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

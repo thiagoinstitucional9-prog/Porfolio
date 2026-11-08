@@ -1,0 +1,54 @@
+{% extends "core/base.html" %}
+
+{% block titulo %}Cocheras · METRO{% endblock %}
+
+{% block contenido %}
+<section class="pagina">
+  <div class="contenedor">
+    <header class="pagina-cabecera">
+      <p class="kicker">Listado</p>
+      <h1>Cocheras</h1>
+    </header>
+
+    <div class="panel">
+      <div class="panel-cabecera">
+        <p class="panel-nota">Cocheras disponibles y cantidad de coches.</p>
+        {% if puede_agregar %}
+        <a class="btn btn-rojo" href="{{ url_crear }}">Agregar</a>
+        {% endif %}
+      </div>
+
+      <table class="panel-tabla">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Ubicación</th>
+            <th>Capacidad</th>
+            <th>Coches</th>
+            {% if puede_editar %}<th>Acciones</th>{% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for cochera in objetos %}
+          <tr>
+            <td>{{ cochera.nombre }}</td>
+            <td>{{ cochera.ubicacion }}</td>
+            <td>{{ cochera.capacidad }}</td>
+            <td>{{ cochera.coche_set.count }}</td>
+            {% if puede_editar %}
+            <td><a href="{% url url_editar cochera.pk %}">Editar</a></td>
+            {% endif %}
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="{% if puede_editar %}5{% else %}4{% endif %}">
+              No hay cocheras todavía.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

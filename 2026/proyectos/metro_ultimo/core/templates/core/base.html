@@ -102,7 +102,10 @@
         <a href="{% url 'core:inicio' %}#beneficios">Beneficios</a>
         <a href="{% url 'core:inicio' %}#contacto">Contacto</a>
         {% if user.is_authenticated %}
-          <span class="nav-usuario">Hola, {{ user.username }}</span>
+          <span class="nav-usuario">
+            Hola, <strong>{{ user.username }}</strong>
+            {% if rol_usuario %}<span class="nav-rol">{{ rol_usuario }}</span>{% endif %}
+          </span>
           <a href="{% url 'core:salir' %}">Salir</a>
         {% else %}
           <a href="{% url 'core:ingresar' %}">Ingresar</a>
@@ -112,6 +115,34 @@
       </nav>
     </div>
   </header>
+
+  {% if user.is_authenticated %}
+    {% if perms.core.view_pasajero or perms.core.view_empleado or perms.core.view_coche or perms.core.view_linea or perms.core.view_cochera or perms.core.view_viaje %}
+    <div class="barra-gestion">
+      <div class="contenedor barra-gestion-inner">
+        <span class="barra-gestion-titulo">Panel de gestión</span>
+        {% if perms.core.view_pasajero %}
+          <a href="{% url 'core:pasajero_lista' %}">Pasajeros</a>
+        {% endif %}
+        {% if perms.core.view_empleado %}
+          <a href="{% url 'core:empleado_lista' %}">Empleados</a>
+        {% endif %}
+        {% if perms.core.view_coche %}
+          <a href="{% url 'core:coche_lista' %}">Coches</a>
+        {% endif %}
+        {% if perms.core.view_linea %}
+          <a href="{% url 'core:linea_lista' %}">Líneas</a>
+        {% endif %}
+        {% if perms.core.view_cochera %}
+          <a href="{% url 'core:cochera_lista' %}">Cocheras</a>
+        {% endif %}
+        {% if perms.core.view_viaje %}
+          <a href="{% url 'core:viaje_lista' %}">Viajes</a>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+  {% endif %}
 
   <main>
     {% block contenido %}{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "core/base.html" %}
+
+{% block titulo %}Viajes · METRO{% endblock %}
+
+{% block contenido %}
+<section class="pagina">
+  <div class="contenedor">
+    <header class="pagina-cabecera">
+      <p class="kicker">Listado</p>
+      <h1>Viajes</h1>
+    </header>
+
+    <div class="panel">
+      <div class="panel-cabecera">
+        <p class="panel-nota">
+          Salidas generadas automáticamente. Asigná un coche a cada viaje.
+        </p>
+      </div>
+
+      <table class="panel-tabla">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Ruta</th>
+            <th>Horario</th>
+            <th>Coche</th>
+            {% if puede_editar %}<th>Acciones</th>{% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for viaje in objetos %}
+          <tr>
+            <td>{{ viaje.fecha|date:"d/m/Y" }}</td>
+            <td>{{ viaje.ruta }}</td>
+            <td>{{ viaje.horario }}</td>
+            <td>
+              {% if viaje.coche %}
+                {{ viaje.coche }}
+              {% else %}
+                <span class="sin-asignar">Sin asignar</span>
+              {% endif %}
+            </td>
+            {% if puede_editar %}
+            <td><a href="{% url url_editar viaje.pk %}">Asignar</a></td>
+            {% endif %}
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="{% if puede_editar %}5{% else %}4{% endif %}">
+              No hay viajes todavía.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{% endblock %}

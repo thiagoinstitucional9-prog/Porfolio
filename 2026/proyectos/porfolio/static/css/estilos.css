@@ -10,7 +10,7 @@
    4. Banner.
    5. Secciones y tarjetas.
    6. Skills, idiomas y proyectos.
-   7. Mapa y pie de pagina.
+   7. Pie de pagina.
    8. Animaciones.
    9. Responsive para mobile, tablet y escritorio.
    10. Login, modales y modo edicion.
@@ -651,22 +651,8 @@ button:focus-visible {
 
 
 /* ============================================================
-   7. MAPA Y PIE DE PAGINA
+   7. PIE DE PAGINA
    ============================================================ */
-
-.contenedor-mapa {
-    overflow: hidden;
-    background-color: var(--color-superficie);
-    border: 1px solid var(--color-borde);
-    border-radius: var(--radio-grande);
-    box-shadow: var(--sombra-suave);
-}
-
-.contenedor-mapa iframe {
-    display: block;
-    width: 100%;
-    border: 0;
-}
 
 .pie-pagina {
     padding: 2.2rem 0;

@@ -55,7 +55,6 @@ Leelo siempre antes de tocar código.
 - JavaScript básico (`static/js/portfolio.js`).
 - Íconos FontAwesome.
 - Fuente de Google Fonts.
-- Al menos un `iframe` (el mapa de ubicación).
 
 **Datos y archivos**
 - Datos sensibles solo en `.env` (nunca escribir claves en el código).
@@ -143,7 +142,7 @@ porfolio/
 |---|---|---|
 | 1. Estructura + requirements + modelo relacional + `base_datos.sql` | **Completa** | 8 tablas con PK/FK, datos de ejemplo y `docs/modelo-relacional.md`. |
 | 2. Conexión a la base y clases POO | **Completa** | `BaseDeDatos`, `ElementoPortfolio` y 6 clases hijas con los 4 pilares comentados. |
-| 3. Página principal leyendo desde la base | **Completa** | `index.html` + `rutas/portfolio.py`: banner, Acerca de, Experiencia, Educación, Skills en círculos, Proyectos e `iframe`. |
+| 3. Página principal leyendo desde la base | **Completa** | `index.html` + `rutas/portfolio.py`: banner, Acerca de, Experiencia, Educación, Skills en círculos y Proyectos. |
 | 4. Diseño y responsive | **Completa** | CSS propio con 3 cortes `(max-width: 767.98px)`, tablet y `(min-width: 992px)`, FontAwesome, Google Fonts, animaciones y favicon. |
 | 5. Login con hash y sesión | **Completa** | Flask-WTF, `hidden_tag()`, `check_password_hash`, sesión y botones Login/Salir. |
 | 6. Modo edición protegido | **Completa** | 19 rutas en `edicion.py` con `revisar_sesion_iniciada()` y CSRF; edición con modales de Bootstrap. |

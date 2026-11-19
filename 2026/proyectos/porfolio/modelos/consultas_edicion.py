@@ -11,7 +11,7 @@ def actualizar_perfil(base_de_datos, perfil_id, datos):
 
     Recibe un diccionario con las claves:
     nombre_completo, titulo_profesional, resumen, texto_banner,
-    foto_perfil, imagen_banner, archivo_cv, correo, ubicacion y mapa_url.
+    foto_perfil, imagen_banner, archivo_cv, correo y ubicacion.
 
     Devuelve True si se modifico alguna fila.
     """
@@ -26,8 +26,7 @@ def actualizar_perfil(base_de_datos, perfil_id, datos):
             imagen_banner = %s,
             archivo_cv = %s,
             correo = %s,
-            ubicacion = %s,
-            mapa_url = %s
+            ubicacion = %s
         WHERE id = %s
     """
 
@@ -41,7 +40,6 @@ def actualizar_perfil(base_de_datos, perfil_id, datos):
         datos["archivo_cv"],
         datos["correo"],
         datos["ubicacion"],
-        datos["mapa_url"],
         perfil_id,
     )
 

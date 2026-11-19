@@ -836,34 +836,7 @@
 
 
         <!-- ============================================================
-             8. MAPA
-             La URL del iframe viene de la columna mapa_url de perfil.
-             ============================================================ -->
-        <section id="ubicacion" class="seccion seccion-alternativa">
-            <div class="container">
-                <div class="seccion-cabecera">
-                    <h2 class="titulo-seccion">
-                        <i class="fa-solid fa-map-location-dot"></i>
-                        Dónde estoy
-                    </h2>
-                    <p class="texto-intro">{{ perfil.ubicacion }}</p>
-                </div>
-
-                <div class="contenedor-mapa ratio ratio-16x9">
-                    <iframe
-                        src="{{ perfil.mapa_url }}"
-                        title="Mapa de {{ perfil.ubicacion }}"
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"
-                        allowfullscreen
-                    ></iframe>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- ============================================================
-             9. ADMINISTRACION DE REDES SOCIALES
+             8. ADMINISTRACION DE REDES SOCIALES
              Esta seccion solamente se ve cuando hay una sesion iniciada.
              ============================================================ -->
         {% if sesion_iniciada %}

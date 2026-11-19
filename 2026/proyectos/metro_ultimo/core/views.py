@@ -1,3 +1,4 @@
+import uuid
 from datetime import date
 
 from django.contrib.auth import login, logout
@@ -11,8 +12,8 @@ from django.views.generic import CreateView, ListView, UpdateView
 
 from . import services
 from .forms import (
-    CocheForm, CocheraForm, EmpleadoForm, LineaForm, PasajeroForm,
-    PersonaForm, ViajeForm,
+    CocheForm, CocheraForm, EmpleadoForm, LineaForm, PagoSimuladoForm,
+    PasajeroForm, PersonaForm, ViajeForm,
 )
 from .models import (
     Beneficio, Ciudad, Coche, Cochera, Destino, Empleado, Linea, Pasajero,
@@ -86,10 +87,11 @@ def buscar(request):
 
 
 def comprar(request, viaje_id):
-    """Resumen del viaje elegido.
+    """Resumen del viaje y checkout simulado.
 
-    La compra online todavía no está habilitada: la página lo dice con
-    claridad y deja los datos de contacto para cerrar la reserva.
+    No se contacta ninguna pasarela de pago ni se guardan datos de tarjeta.
+    Las tarjetas terminadas en 0000 se rechazan para poder probar el flujo
+    de error; el resto se considera aprobado.
     """
     viaje = get_object_or_404(
         Viaje.objects.select_related(
@@ -98,16 +100,69 @@ def comprar(request, viaje_id):
         pk=viaje_id,
     )
 
-    pasajeros = _pasajeros(request.GET.get("pasajeros"))
+    pasajeros = _pasajeros(
+        request.POST.get("pasajeros") or request.GET.get("pasajeros")
+    )
+    total = viaje.precio * pasajeros
+    total_txt = formato_miles(total)
+    form = PagoSimuladoForm(request.POST or None)
+
+    if request.method == "POST" and form.is_valid():
+        if pasajeros > viaje.asientos:
+            form.add_error(
+                None,
+                "No hay suficientes butacas disponibles para esa cantidad "
+                "de pasajeros.",
+            )
+        elif form.pago_aprobado():
+            cuotas = int(form.cleaned_data["cuotas"])
+            request.session["pago_simulado"] = {
+                "viaje_id": viaje.pk,
+                "pasajeros": pasajeros,
+                "total_txt": total_txt,
+                "codigo": f"METRO-{uuid.uuid4().hex[:8].upper()}",
+                "tarjeta": form.tarjeta_enmascarada(),
+                "cuotas": cuotas,
+                "cuota_txt": formato_miles(round(total / cuotas)),
+                "email": form.cleaned_data.get("email", ""),
+            }
+            viaje.asientos -= pasajeros
+            viaje.save(update_fields=["asientos"])
+            return redirect("core:pago_confirmado")
+        else:
+            form.add_error(
+                None,
+                "Pago rechazado por el banco simulado. "
+                "Probá con otra tarjeta.",
+            )
+
     contexto = {
         "viaje": viaje,
         "pasajeros": pasajeros,
-        "total_txt": formato_miles(viaje.precio * pasajeros),
+        "total_txt": total_txt,
         "origen": viaje.origen,
         "destino": viaje.destino,
         "fecha": viaje.fecha_iso,
+        "form": form,
     }
     return render(request, "core/comprar.html", contexto)
+
+
+def pago_confirmado(request):
+    """Muestra el comprobante del último pago simulado aprobado."""
+    datos = request.session.pop("pago_simulado", None)
+    if not datos:
+        return redirect("core:inicio")
+
+    viaje_id = datos.pop("viaje_id")
+    viaje = get_object_or_404(
+        Viaje.objects.select_related(
+            "ruta__origen", "ruta__destino", "horario__clase",
+        ),
+        pk=viaje_id,
+    )
+    contexto = {"viaje": viaje, **datos}
+    return render(request, "core/pago_confirmado.html", contexto)
 
 
 def ingresar(request):

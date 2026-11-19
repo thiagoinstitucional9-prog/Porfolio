@@ -1,6 +1,6 @@
 {% extends "core/base.html" %}
 
-{% block titulo %}Resumen del viaje · METRO{% endblock %}
+{% block titulo %}Resumen y pago simulado · METRO{% endblock %}
 
 {% block contenido %}
 <section class="pagina">
@@ -29,29 +29,42 @@
         <div><dt>Butacas disponibles</dt><dd>{{ viaje.asientos }}</dd></div>
         <div><dt>Pasajeros</dt><dd>{{ pasajeros }}</dd></div>
         <div><dt>Precio por pasajero</dt><dd>${{ viaje.precio_txt }}</dd></div>
-        <div class="resumen-total"><dt>Total estimado</dt><dd>${{ total_txt }}</dd></div>
+        <div class="resumen-total"><dt>Total a pagar</dt><dd>${{ total_txt }}</dd></div>
       </dl>
     </article>
 
     <div class="aviso">
-      <h2>La compra online se habilita próximamente</h2>
-      <p>Este resumen ya tenés listo: guardalo y, para confirmar la reserva
-         y abonar, comunicate con nuestro centro de ventas indicando destino,
-         fecha y cantidad de pasajeros. Todavía no aceptamos pagos por el
-         sitio.</p>
-      <div class="aviso-acciones">
-        <a class="btn btn-rojo" href="tel:+541143127788">
-          <svg class="icono"><use href="#ic-telefono"/></svg>
-          Llamar al +54 11 4312-7788
-        </a>
-        <a class="btn btn-oscuro" href="https://wa.me/549115556387" target="_blank" rel="noopener">
-          <svg class="icono"><use href="#ic-whatsapp"/></svg>
-          Escribir por WhatsApp
-        </a>
+      <p class="kicker">Pago simulado</p>
+      <h2>Completá el pago de prueba</h2>
+
+      <div class="pago-demo">
+        <strong>Este es un simulador.</strong> No se realiza ningún cobro real
+        y no se guardan los datos de la tarjeta.
+        <br>
+        Tarjeta aprobada: <strong>4111 1111 1111 1111</strong>.
+        Para probar un rechazo, usá una tarjeta terminada en <strong>0000</strong>.
+        Vencimiento de ejemplo: <strong>12/30</strong>. Código: <strong>123</strong>.
       </div>
-      <a class="volver" href="{% url 'core:buscar' %}?origen={{ viaje.origen|urlencode }}&amp;destino={{ viaje.destino|urlencode }}&amp;fecha={{ viaje.fecha_iso }}&amp;pasajeros={{ pasajeros }}">
-        ← Volver a los resultados
-      </a>
+
+      <form method="post" class="form-auth" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="pasajeros" value="{{ pasajeros }}">
+        {{ form.as_p }}
+        <div class="form-acciones">
+          <button type="submit" class="btn btn-rojo">
+            Pagar ${{ total_txt }}
+          </button>
+          <a class="btn btn-oscuro"
+             href="{% url 'core:buscar' %}?origen={{ viaje.origen|urlencode }}&amp;destino={{ viaje.destino|urlencode }}&amp;fecha={{ viaje.fecha_iso }}&amp;pasajeros={{ pasajeros }}">
+            Volver a los resultados
+          </a>
+        </div>
+      </form>
+
+      <p class="nota-suave">
+        El pago es una demostración académica. No se envían datos a ninguna
+        entidad bancaria.
+      </p>
     </div>
 
   </div>

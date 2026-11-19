@@ -27,7 +27,6 @@ portfolio pueda agregar, editar y eliminar contenido sin tocar el código.
 - Experiencias, educación, hard skills, soft skills, idiomas y proyectos.
 - Skills dibujadas como círculos con CSS.
 - Barras animadas para los idiomas.
-- Mapa embebido con Google Maps.
 - Login con sesión, contraseña con hash y token CSRF.
 - Modo edición con formularios modales.
 - Agregar, editar y eliminar experiencias, educación, skills, idiomas,

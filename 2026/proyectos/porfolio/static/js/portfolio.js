@@ -4,11 +4,13 @@
 // 1. Abrir el modal de login cuando el servidor lo pide.
 // 2. Completar los modales de edicion con los datos del elemento elegido.
 // 3. Pedir confirmacion antes de eliminar.
+// 4. Mostrar u ocultar la contraseña en el login.
 
 document.addEventListener("DOMContentLoaded", function () {
     abrirModalLoginSiHaceFalta();
     prepararModalesDeEdicion();
     prepararFormulariosDeEliminacion();
+    prepararBotonVerClave();
 });
 
 
@@ -98,5 +100,30 @@ function prepararFormulariosDeEliminacion() {
                 evento.preventDefault();
             }
         });
+    });
+}
+
+
+function prepararBotonVerClave() {
+    const boton = document.getElementById("botonVerClave");
+    const campoClave = document.getElementById("clave");
+    const icono = document.getElementById("iconoVerClave");
+
+    if (!boton || !campoClave || !icono) {
+        return;
+    }
+
+    boton.addEventListener("click", function () {
+        if (campoClave.type === "password") {
+            campoClave.type = "text";
+            icono.className = "fa-solid fa-eye-slash";
+            boton.setAttribute("aria-label", "Ocultar contraseña");
+            boton.setAttribute("title", "Ocultar contraseña");
+        } else {
+            campoClave.type = "password";
+            icono.className = "fa-solid fa-eye";
+            boton.setAttribute("aria-label", "Ver contraseña");
+            boton.setAttribute("title", "Ver contraseña");
+        }
     });
 }

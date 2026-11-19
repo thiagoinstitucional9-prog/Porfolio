@@ -94,7 +94,6 @@ Guarda los datos personales que aparecen en el encabezado y en "Acerca de".
 | `archivo_cv` | VARCHAR(255) | Ruta del PDF del CV. |
 | `correo` | VARCHAR(120) | Correo de contacto. |
 | `ubicacion` | VARCHAR(120) | Ciudad o pais. |
-| `mapa_url` | VARCHAR(500) | URL que se carga dentro del iframe del mapa. |
 | `actualizado_en` | TIMESTAMP | Se actualiza solo al modificar la fila. |
 
 Las rutas de imagenes son relativas a la carpeta `static/`. Por ejemplo,

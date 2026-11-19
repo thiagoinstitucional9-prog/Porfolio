@@ -149,7 +149,6 @@ def editar_perfil():
             "archivo_cv": obtener_texto("archivo_cv"),
             "correo": obtener_texto("correo"),
             "ubicacion": obtener_texto("ubicacion"),
-            "mapa_url": obtener_texto("mapa_url"),
         }
 
         campos_obligatorios = [
@@ -162,7 +161,6 @@ def editar_perfil():
             "archivo_cv",
             "correo",
             "ubicacion",
-            "mapa_url",
         ]
 
         if faltan_datos(datos, campos_obligatorios):

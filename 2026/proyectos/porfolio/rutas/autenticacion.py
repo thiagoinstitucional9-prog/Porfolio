@@ -62,13 +62,14 @@ def iniciar_sesion():
         return redirect(
             url_for(
                 "portfolio.mostrar_portfolio",
-                login="error",
+                login="formulario",
                 _anchor="login",
             )
         )
 
+    # Sacamos espacios de mas por si la persona copio y pego con un espacio.
     nombre_usuario = formulario.nombre_usuario.data.strip()
-    clave = formulario.clave.data
+    clave = formulario.clave.data.strip()
 
     base_de_datos = BaseDeDatos()
 

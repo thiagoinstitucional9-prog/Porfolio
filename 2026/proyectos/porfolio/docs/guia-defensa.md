@@ -15,7 +15,6 @@ puede ver:
 - Hard skills y soft skills.
 - Idiomas.
 - Proyectos.
-- Ubicación en un mapa.
 - Un botón para descargar el CV.
 
 La persona dueña del portfolio puede iniciar sesión y entrar en un modo de

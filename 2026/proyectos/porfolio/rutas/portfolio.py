@@ -86,6 +86,12 @@ def mostrar_portfolio():
             "Revisá los datos e intentá de nuevo."
         )
         abrir_modal_login = True
+    elif estado_login == "formulario":
+        mensaje_login = (
+            "Faltan datos en el formulario. "
+            "Escribí el usuario y la contraseña."
+        )
+        abrir_modal_login = True
     elif estado_login == "requerido":
         mensaje_login = "Iniciá sesión para poder editar el portfolio."
         abrir_modal_login = True

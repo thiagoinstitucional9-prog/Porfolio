@@ -8,7 +8,6 @@
     id="modalLogin"
     tabindex="-1"
     aria-labelledby="tituloModalLogin"
-    aria-hidden="true"
     data-abrir-modal="{{ 'true' if abrir_modal_login else 'false' }}"
 >
     <div class="modal-dialog modal-dialog-centered">
@@ -53,7 +52,19 @@
 
                     <div class="mb-2">
                         {{ formulario_login.clave.label(class="form-label") }}
-                        {{ formulario_login.clave(class="form-control") }}
+
+                        <div class="input-group">
+                            {{ formulario_login.clave(class="form-control") }}
+                            <button
+                                type="button"
+                                class="btn btn-outline-secondary"
+                                id="botonVerClave"
+                                aria-label="Ver contraseña"
+                                title="Ver contraseña"
+                            >
+                                <i class="fa-solid fa-eye" id="iconoVerClave"></i>
+                            </button>
+                        </div>
 
                         {% for error in formulario_login.clave.errors %}
                             <div class="text-danger small mt-1">{{ error }}</div>

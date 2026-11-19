@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="description"
+        content="Portfolio personal de un desarrollador Full Stack Junior. Proyectos, experiencia, educación y habilidades."
+    >
+
+    <!-- El titulo cambia en cada pagina que extiende esta plantilla. -->
+    <title>{% block titulo %}Portfolio{% endblock %}</title>
+
+    <!-- Favicon simple con las iniciales del logo. -->
+    <link
+        rel="icon"
+        type="image/svg+xml"
+        href="{{ url_for('static', filename='img/favicon.svg') }}"
+    >
+
+    <!-- Google Fonts: Poppins para titulos e Inter para textos. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap se carga desde internet. Se usa para la estructura basica. -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- FontAwesome se usa para los iconos de redes sociales y botones. -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- Estilos propios del portfolio. -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/estilos.css') }}"
+    >
+
+    <!-- Aca las paginas hijas pueden agregar sus propios estilos. -->
+    {% block estilos_extra %}{% endblock %}
+</head>
+<body class="cuerpo-portfolio">
+
+    <!-- Aca cada pagina coloca su contenido. -->
+    {% block contenido %}{% endblock %}
+
+    <!-- Bootstrap necesita este archivo para funcionar. -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+    <!-- Interacciones propias del portfolio: modales y confirmaciones. -->
+    <script src="{{ url_for('static', filename='js/portfolio.js') }}"></script>
+
+    <!-- Interaccion extra: arrastrar tarjetas para cambiar el orden. -->
+    <script src="{{ url_for('static', filename='js/arrastrar_orden.js') }}"></script>
+
+    <!-- Aca las paginas hijas pueden agregar sus propios scripts. -->
+    {% block scripts_extra %}{% endblock %}
+</body>
+</html>

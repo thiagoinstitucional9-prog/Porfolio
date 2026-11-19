@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Foto de perfil de ejemplo">
+  <defs>
+    <linearGradient id="fondo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#0d9488"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#fondo)"/>
+  <circle cx="470" cy="120" r="150" fill="#14b8a6" opacity="0.25"/>
+  <circle cx="120" cy="520" r="190" fill="#f97316" opacity="0.16"/>
+  <circle cx="300" cy="235" r="100" fill="#f8fafc" opacity="0.96"/>
+  <path d="M120 600c0-120 80-195 180-195s180 75 180 195" fill="#f8fafc" opacity="0.96"/>
+  <text x="300" y="575" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#f8fafc">Foto de ejemplo</text>
+</svg>

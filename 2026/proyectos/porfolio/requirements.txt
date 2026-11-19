@@ -1,0 +1,12 @@
+# Dependencias del portfolio.
+# Se instalan con: pip install -r requirements.txt
+
+Flask>=3.0,<4.0
+Flask-WTF>=1.2,<2.0
+mysql-connector-python>=9.0
+
+# Werkzeug viene incluido con Flask y se usa para generar y comprobar
+# el hash de las contraseñas con werkzeug.security.
+#
+# El archivo .env se lee con las funciones que ya trae Python
+# (por ejemplo os.getenv). No hace falta instalar otra librería.

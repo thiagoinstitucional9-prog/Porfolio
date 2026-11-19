@@ -1,0 +1,852 @@
+<!-- ============================================================
+     MODALES DE EDICION
+     Se muestran solamente cuando hay una sesion iniciada.
+     Cada modal tiene un formulario POST protegido con CSRF.
+     ============================================================ -->
+
+
+<!-- ============================================================
+     MODAL DEL PERFIL
+     ============================================================ -->
+<div
+    class="modal fade"
+    id="modalPerfil"
+    tabindex="-1"
+    aria-labelledby="tituloModalPerfil"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content modal-portfolio">
+
+            <form method="post" action="{{ url_for('edicion.editar_perfil') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="tituloModalPerfil">
+                        <i class="fa-solid fa-user-pen me-2"></i>
+                        Editar perfil
+                    </h2>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row g-3">
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="perfilNombre">Nombre completo</label>
+                            <input
+                                class="form-control"
+                                id="perfilNombre"
+                                name="nombre_completo"
+                                type="text"
+                                maxlength="100"
+                                value="{{ perfil.nombre_completo }}"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="perfilTitulo">Título profesional</label>
+                            <input
+                                class="form-control"
+                                id="perfilTitulo"
+                                name="titulo_profesional"
+                                type="text"
+                                maxlength="150"
+                                value="{{ perfil.titulo_profesional }}"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label" for="perfilResumen">Resumen</label>
+                            <textarea
+                                class="form-control"
+                                id="perfilResumen"
+                                name="resumen"
+                                rows="5"
+                                required
+                            >{{ perfil.resumen }}</textarea>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label" for="perfilBannerTexto">Texto del banner</label>
+                            <textarea
+                                class="form-control"
+                                id="perfilBannerTexto"
+                                name="texto_banner"
+                                rows="2"
+                                maxlength="255"
+                                required
+                            >{{ perfil.texto_banner }}</textarea>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="perfilFoto">Ruta de la foto</label>
+                            <input
+                                class="form-control"
+                                id="perfilFoto"
+                                name="foto_perfil"
+                                type="text"
+                                maxlength="255"
+                                value="{{ perfil.foto_perfil }}"
+                                required
+                            >
+                            <div class="texto-ayuda">Ejemplo: img/perfil-ejemplo.svg</div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="perfilBanner">Ruta del banner</label>
+                            <input
+                                class="form-control"
+                                id="perfilBanner"
+                                name="imagen_banner"
+                                type="text"
+                                maxlength="255"
+                                value="{{ perfil.imagen_banner }}"
+                                required
+                            >
+                            <div class="texto-ayuda">Ejemplo: img/banner-ejemplo.svg</div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="perfilCv">Ruta del CV</label>
+                            <input
+                                class="form-control"
+                                id="perfilCv"
+                                name="archivo_cv"
+                                type="text"
+                                maxlength="255"
+                                value="{{ perfil.archivo_cv }}"
+                                required
+                            >
+                            <div class="texto-ayuda">Ejemplo: cv/cv-ejemplo.pdf</div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="perfilCorreo">Correo</label>
+                            <input
+                                class="form-control"
+                                id="perfilCorreo"
+                                name="correo"
+                                type="email"
+                                maxlength="120"
+                                value="{{ perfil.correo }}"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="perfilUbicacion">Ubicación</label>
+                            <input
+                                class="form-control"
+                                id="perfilUbicacion"
+                                name="ubicacion"
+                                type="text"
+                                maxlength="120"
+                                value="{{ perfil.ubicacion }}"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label" for="perfilMapa">URL del mapa</label>
+                            <textarea
+                                class="form-control"
+                                id="perfilMapa"
+                                name="mapa_url"
+                                rows="3"
+                                maxlength="500"
+                                required
+                            >{{ perfil.mapa_url }}</textarea>
+                            <div class="texto-ayuda">
+                                Es la dirección que se usa dentro del iframe de Google Maps.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk me-1"></i>
+                        Guardar cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     MODAL DE EXPERIENCIA
+     ============================================================ -->
+<div
+    class="modal fade modal-edicion"
+    id="modalExperiencia"
+    tabindex="-1"
+    aria-labelledby="tituloModalExperiencia"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content modal-portfolio">
+
+            <form method="post" action="{{ url_for('edicion.agregar_experiencia') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="tituloModalExperiencia">
+                        Agregar experiencia
+                    </h2>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row g-3">
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="experienciaPuesto">Puesto</label>
+                            <input
+                                class="form-control"
+                                id="experienciaPuesto"
+                                name="puesto"
+                                type="text"
+                                maxlength="120"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="experienciaEmpresa">Empresa</label>
+                            <input
+                                class="form-control"
+                                id="experienciaEmpresa"
+                                name="empresa"
+                                type="text"
+                                maxlength="120"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="experienciaPeriodo">Período</label>
+                            <input
+                                class="form-control"
+                                id="experienciaPeriodo"
+                                name="periodo"
+                                type="text"
+                                maxlength="80"
+                                placeholder="Ejemplo: 2023 - 2025"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="experienciaLogo">Ruta del logo</label>
+                            <input
+                                class="form-control"
+                                id="experienciaLogo"
+                                name="logo"
+                                type="text"
+                                maxlength="255"
+                                placeholder="img/empresa-ejemplo.svg"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label" for="experienciaDescripcion">Descripción</label>
+                            <textarea
+                                class="form-control"
+                                id="experienciaDescripcion"
+                                name="descripcion"
+                                rows="4"
+                                required
+                            ></textarea>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label class="form-label" for="experienciaOrden">Orden</label>
+                            <input
+                                class="form-control"
+                                id="experienciaOrden"
+                                name="orden"
+                                type="number"
+                                min="0"
+                                step="1"
+                                value="0"
+                            >
+                            <div class="texto-ayuda">Menor número aparece primero.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk me-1"></i>
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     MODAL DE EDUCACION
+     ============================================================ -->
+<div
+    class="modal fade modal-edicion"
+    id="modalEducacion"
+    tabindex="-1"
+    aria-labelledby="tituloModalEducacion"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content modal-portfolio">
+
+            <form method="post" action="{{ url_for('edicion.agregar_educacion') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="tituloModalEducacion">
+                        Agregar estudio
+                    </h2>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row g-3">
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="educacionTitulo">Título</label>
+                            <input
+                                class="form-control"
+                                id="educacionTitulo"
+                                name="titulo"
+                                type="text"
+                                maxlength="150"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="educacionInstitucion">Institución</label>
+                            <input
+                                class="form-control"
+                                id="educacionInstitucion"
+                                name="institucion"
+                                type="text"
+                                maxlength="150"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="educacionPeriodo">Período</label>
+                            <input
+                                class="form-control"
+                                id="educacionPeriodo"
+                                name="periodo"
+                                type="text"
+                                maxlength="80"
+                                placeholder="Ejemplo: 2022 - 2026"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="educacionLogo">Ruta del logo</label>
+                            <input
+                                class="form-control"
+                                id="educacionLogo"
+                                name="logo"
+                                type="text"
+                                maxlength="255"
+                                placeholder="img/instituto-ejemplo.svg"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label" for="educacionDescripcion">Descripción</label>
+                            <textarea
+                                class="form-control"
+                                id="educacionDescripcion"
+                                name="descripcion"
+                                rows="4"
+                                required
+                            ></textarea>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label class="form-label" for="educacionOrden">Orden</label>
+                            <input
+                                class="form-control"
+                                id="educacionOrden"
+                                name="orden"
+                                type="number"
+                                min="0"
+                                step="1"
+                                value="0"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk me-1"></i>
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     MODAL DE SKILL
+     ============================================================ -->
+<div
+    class="modal fade modal-edicion"
+    id="modalSkill"
+    tabindex="-1"
+    aria-labelledby="tituloModalSkill"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-portfolio">
+
+            <form method="post" action="{{ url_for('edicion.agregar_skill') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="tituloModalSkill">
+                        Agregar habilidad
+                    </h2>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row g-3">
+
+                        <div class="col-12">
+                            <label class="form-label" for="skillNombre">Nombre</label>
+                            <input
+                                class="form-control"
+                                id="skillNombre"
+                                name="nombre"
+                                type="text"
+                                maxlength="80"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="skillPorcentaje">Porcentaje</label>
+                            <input
+                                class="form-control"
+                                id="skillPorcentaje"
+                                name="porcentaje"
+                                type="number"
+                                min="0"
+                                max="100"
+                                step="1"
+                                value="50"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="skillCategoria">Categoría</label>
+                            <select class="form-select" id="skillCategoria" name="categoria" required>
+                                <option value="Hard">Hard</option>
+                                <option value="Soft">Soft</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="skillOrden">Orden</label>
+                            <input
+                                class="form-control"
+                                id="skillOrden"
+                                name="orden"
+                                type="number"
+                                min="0"
+                                step="1"
+                                value="0"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk me-1"></i>
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     MODAL DE IDIOMA
+     ============================================================ -->
+<div
+    class="modal fade modal-edicion"
+    id="modalIdioma"
+    tabindex="-1"
+    aria-labelledby="tituloModalIdioma"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-portfolio">
+
+            <form method="post" action="{{ url_for('edicion.agregar_idioma') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="tituloModalIdioma">
+                        Agregar idioma
+                    </h2>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row g-3">
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="idiomaNombre">Idioma</label>
+                            <input
+                                class="form-control"
+                                id="idiomaNombre"
+                                name="nombre"
+                                type="text"
+                                maxlength="80"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="idiomaNivel">Nivel</label>
+                            <input
+                                class="form-control"
+                                id="idiomaNivel"
+                                name="nivel"
+                                type="text"
+                                maxlength="60"
+                                placeholder="Ejemplo: Intermedio"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="idiomaPorcentaje">Porcentaje</label>
+                            <input
+                                class="form-control"
+                                id="idiomaPorcentaje"
+                                name="porcentaje"
+                                type="number"
+                                min="0"
+                                max="100"
+                                step="1"
+                                value="50"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="idiomaOrden">Orden</label>
+                            <input
+                                class="form-control"
+                                id="idiomaOrden"
+                                name="orden"
+                                type="number"
+                                min="0"
+                                step="1"
+                                value="0"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk me-1"></i>
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     MODAL DE PROYECTO
+     ============================================================ -->
+<div
+    class="modal fade modal-edicion"
+    id="modalProyecto"
+    tabindex="-1"
+    aria-labelledby="tituloModalProyecto"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content modal-portfolio">
+
+            <form method="post" action="{{ url_for('edicion.agregar_proyecto') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="tituloModalProyecto">
+                        Agregar proyecto
+                    </h2>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row g-3">
+
+                        <div class="col-12 col-md-8">
+                            <label class="form-label" for="proyectoNombre">Nombre</label>
+                            <input
+                                class="form-control"
+                                id="proyectoNombre"
+                                name="nombre"
+                                type="text"
+                                maxlength="150"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label class="form-label" for="proyectoFecha">Fecha</label>
+                            <input
+                                class="form-control"
+                                id="proyectoFecha"
+                                name="fecha"
+                                type="date"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label" for="proyectoDescripcion">Descripción</label>
+                            <textarea
+                                class="form-control"
+                                id="proyectoDescripcion"
+                                name="descripcion"
+                                rows="4"
+                                required
+                            ></textarea>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="proyectoEnlace">Enlace</label>
+                            <input
+                                class="form-control"
+                                id="proyectoEnlace"
+                                name="enlace"
+                                type="url"
+                                maxlength="500"
+                                placeholder="https://..."
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="form-label" for="proyectoImagen">Ruta de la imagen</label>
+                            <input
+                                class="form-control"
+                                id="proyectoImagen"
+                                name="imagen"
+                                type="text"
+                                maxlength="255"
+                                placeholder="img/proyecto-ejemplo.svg"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label class="form-label" for="proyectoOrden">Orden</label>
+                            <input
+                                class="form-control"
+                                id="proyectoOrden"
+                                name="orden"
+                                type="number"
+                                min="0"
+                                step="1"
+                                value="0"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk me-1"></i>
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     MODAL DE RED SOCIAL
+     ============================================================ -->
+<div
+    class="modal fade modal-edicion"
+    id="modalRedSocial"
+    tabindex="-1"
+    aria-labelledby="tituloModalRedSocial"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-portfolio">
+
+            <form method="post" action="{{ url_for('edicion.agregar_red_social') }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="tituloModalRedSocial">
+                        Agregar red social
+                    </h2>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row g-3">
+
+                        <div class="col-12">
+                            <label class="form-label" for="redSocialNombre">Nombre</label>
+                            <input
+                                class="form-control"
+                                id="redSocialNombre"
+                                name="nombre"
+                                type="text"
+                                maxlength="80"
+                                placeholder="GitHub"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label" for="redSocialEnlace">Enlace</label>
+                            <input
+                                class="form-control"
+                                id="redSocialEnlace"
+                                name="enlace"
+                                type="url"
+                                maxlength="500"
+                                placeholder="https://github.com/tu-usuario"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label" for="redSocialIcono">Clase del icono</label>
+                            <input
+                                class="form-control"
+                                id="redSocialIcono"
+                                name="icono"
+                                type="text"
+                                maxlength="100"
+                                placeholder="fa-brands fa-github"
+                                required
+                            >
+                            <div class="texto-ayuda">
+                                Se usa una clase de FontAwesome. Ejemplo: fa-brands fa-linkedin-in
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label class="form-label" for="redSocialOrden">Orden</label>
+                            <input
+                                class="form-control"
+                                id="redSocialOrden"
+                                name="orden"
+                                type="number"
+                                min="0"
+                                step="1"
+                                value="0"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-floppy-disk me-1"></i>
+                        Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

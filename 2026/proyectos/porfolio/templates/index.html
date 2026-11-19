@@ -1,0 +1,1000 @@
+{% extends "base.html" %}
+
+{% block titulo %}
+    {{ perfil.nombre_completo }} | Portfolio
+{% endblock %}
+
+{% block contenido %}
+
+    <!-- ============================================================
+         1. ENCABEZADO
+         Izquierda: logo y nombre.
+         Derecha: redes sociales y boton de Login.
+         ============================================================ -->
+    <header class="encabezado-principal">
+        <div class="container contenedor-encabezado">
+
+            <a class="marca" href="{{ url_for('portfolio.mostrar_portfolio') }}">
+                <img
+                    class="logo-marca"
+                    src="{{ url_for('static', filename='img/logo.svg') }}"
+                    alt="Logo del portfolio"
+                    width="48"
+                    height="48"
+                >
+                <span class="nombre-marca">{{ perfil.nombre_completo }}</span>
+            </a>
+
+            <div class="acciones-encabezado">
+
+                <!-- Redes sociales leidas desde la tabla redes_sociales. -->
+                <div class="d-flex align-items-center gap-2">
+                    {% for red in redes_sociales %}
+                        <a
+                            class="enlace-social"
+                            href="{{ red.enlace }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="{{ red.nombre }}"
+                            title="{{ red.nombre }}"
+                        >
+                            <i class="{{ red.icono }}"></i>
+                        </a>
+                    {% endfor %}
+                </div>
+
+                {% if sesion_iniciada %}
+                    <!-- Datos de la sesion y boton para salir. -->
+                    <span class="etiqueta-sesion" title="Sesión iniciada como {{ nombre_usuario }}">
+                        <i class="fa-solid fa-user-check"></i>
+                        <span class="d-none d-md-inline">{{ nombre_usuario }}</span>
+                    </span>
+
+                    <span class="etiqueta-modo-edicion d-none d-lg-inline-flex">
+                        <i class="fa-solid fa-pen"></i>
+                        Modo edición
+                    </span>
+
+                    <form
+                        class="formulario-salir"
+                        method="post"
+                        action="{{ url_for('autenticacion.cerrar_sesion') }}"
+                    >
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button class="btn btn-outline-light btn-sm" type="submit">
+                            <i class="fa-solid fa-right-from-bracket me-1"></i>
+                            Salir
+                        </button>
+                    </form>
+                {% else %}
+                    <button
+                        class="btn btn-outline-light btn-sm"
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#modalLogin"
+                    >
+                        <i class="fa-solid fa-right-to-bracket me-1"></i>
+                        Login
+                    </button>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Mensajes de exito, aviso o error enviados desde las rutas. -->
+    {% with mensajes = get_flashed_messages(with_categories=true) %}
+        {% if mensajes %}
+            <div class="container mensajes-flash">
+                {% for categoria, mensaje in mensajes %}
+                    <div
+                        class="alert alert-{{ categoria }} alert-dismissible fade show"
+                        role="alert"
+                    >
+                        {{ mensaje }}
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Cerrar"
+                        ></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+
+    <main>
+
+        <!-- Solo en modo edición mostramos la ayuda para arrastrar tarjetas. -->
+        {% if sesion_iniciada %}
+            <div class="container mt-3">
+                <div class="alert alert-info small mb-0">
+                    <i class="fa-solid fa-grip-vertical me-2"></i>
+                    Estás en modo edición: podés arrastrar las tarjetas para cambiar el orden.
+                    También podés escribir el número en el campo "Orden" de cada formulario.
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- ============================================================
+             2. BANNER PRINCIPAL
+             La imagen se lee desde la columna imagen_banner de perfil.
+             ============================================================ -->
+        <section class="banner-principal">
+            <img
+                class="banner-imagen"
+                src="{{ url_for('static', filename=perfil.imagen_banner) }}"
+                alt=""
+                aria-hidden="true"
+            >
+            <div class="banner-capa"></div>
+
+            <div class="container banner-contenido">
+                <span class="banner-etiqueta">Portfolio personal</span>
+                <h1 class="banner-titulo">{{ perfil.nombre_completo }}</h1>
+                <p class="banner-subtitulo">{{ perfil.titulo_profesional }}</p>
+                <p class="banner-texto">{{ perfil.texto_banner }}</p>
+            </div>
+        </section>
+
+
+        <!-- ============================================================
+             3. ACERCA DE
+             Foto, nombre, titulo, resumen y boton de descarga del CV.
+             ============================================================ -->
+        <section id="sobre-mi" class="seccion">
+            <div class="container">
+                <div class="tarjeta-sobre-mi">
+                    <div class="row align-items-center g-4 g-lg-5">
+
+                        <div class="col-12 col-md-4 text-center">
+                            <img
+                                src="{{ url_for('static', filename=perfil.foto_perfil) }}"
+                                alt="Foto de perfil de {{ perfil.nombre_completo }}"
+                                class="foto-perfil"
+                                width="260"
+                                height="260"
+                            >
+                        </div>
+
+                        <div class="col-12 col-md-8">
+                            <h2 class="titulo-seccion">
+                                <i class="fa-solid fa-user"></i>
+                                Acerca de
+                            </h2>
+
+                            <h3 class="h4">{{ perfil.nombre_completo }}</h3>
+                            <p class="text-muted">{{ perfil.titulo_profesional }}</p>
+                            <p>{{ perfil.resumen }}</p>
+
+                            <ul class="datos-contacto">
+                                <li class="dato-contacto">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    {{ perfil.ubicacion }}
+                                </li>
+                                <li class="dato-contacto">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    <a href="mailto:{{ perfil.correo }}">{{ perfil.correo }}</a>
+                                </li>
+                            </ul>
+
+                            <a
+                                class="btn btn-primary"
+                                href="{{ url_for('static', filename=perfil.archivo_cv) }}"
+                                download
+                            >
+                                <i class="fa-solid fa-file-pdf me-2"></i>
+                                Descargar CV
+                            </a>
+
+                            {% if sesion_iniciada %}
+                                <button
+                                    class="btn btn-outline-primary ms-2"
+                                    type="button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalPerfil"
+                                >
+                                    <i class="fa-solid fa-user-pen me-2"></i>
+                                    Editar perfil
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================
+             4. EXPERIENCIA
+             La seccion se muestra siempre. Si no hay datos, aparece
+             un mensaje de "Proximamente".
+             ============================================================ -->
+        <section id="experiencia" class="seccion seccion-alternativa">
+            <div class="container">
+                <div class="seccion-cabecera">
+                    <div class="fila-titulo-seccion">
+                        <div>
+                            <h2 class="titulo-seccion">
+                                <i class="fa-solid fa-briefcase"></i>
+                                Experiencia
+                            </h2>
+                            <p class="texto-intro">
+                                Trabajos y prácticas donde fui aprendiendo el oficio de desarrollar software.
+                            </p>
+                        </div>
+
+                        {% if sesion_iniciada %}
+                            <button
+                                class="btn btn-primary"
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalExperiencia"
+                                data-modo="agregar"
+                                data-accion="{{ url_for('edicion.agregar_experiencia') }}"
+                                data-titulo="Agregar experiencia"
+                                data-registro='{{ {"orden": 0} | tojson }}'
+                            >
+                                <i class="fa-solid fa-plus me-1"></i>
+                                Agregar
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if experiencias %}
+                    <div class="row g-4" {% if sesion_iniciada %}data-lista-orden="experiencias"{% endif %}>
+                        {% for experiencia in experiencias %}
+                            <div class="col-12 col-lg-6 tarjeta-arrastrable" draggable="true" data-id="{{ experiencia.id }}">
+                                <article class="tarjeta-elemento">
+                                    <img
+                                        src="{{ url_for('static', filename=experiencia.logo) }}"
+                                        alt="Logo de {{ experiencia.empresa }}"
+                                        class="logo-elemento"
+                                        width="72"
+                                        height="72"
+                                        loading="lazy"
+                                    >
+
+                                    <div>
+                                        <div class="fila-titulo-elemento">
+                                            <h3 class="titulo-elemento">{{ experiencia.puesto }}</h3>
+                                            <span class="periodo-elemento">{{ experiencia.periodo }}</span>
+                                        </div>
+
+                                        <p class="nombre-organizacion">{{ experiencia.empresa }}</p>
+                                        <p class="descripcion-elemento">{{ experiencia.descripcion }}</p>
+
+                                        {% if sesion_iniciada %}
+                                            <div class="acciones-tarjeta">
+                                                <button
+                                                    class="btn btn-sm btn-outline-primary"
+                                                    type="button"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalExperiencia"
+                                                    data-modo="editar"
+                                                    data-accion="{{ url_for('edicion.editar_experiencia', experiencia_id=experiencia.id) }}"
+                                                    data-titulo="Editar experiencia"
+                                                    data-registro='{{ {
+                                                        "puesto": experiencia.puesto,
+                                                        "empresa": experiencia.empresa,
+                                                        "periodo": experiencia.periodo,
+                                                        "descripcion": experiencia.descripcion,
+                                                        "logo": experiencia.logo,
+                                                        "orden": experiencia.orden
+                                                    } | tojson }}'
+                                                >
+                                                    <i class="fa-solid fa-pen"></i>
+                                                    Editar
+                                                </button>
+
+                                                <form
+                                                    class="formulario-eliminar"
+                                                    method="post"
+                                                    action="{{ url_for('edicion.eliminar_experiencia', experiencia_id=experiencia.id) }}"
+                                                    data-confirmar="¿Eliminar esta experiencia?"
+                                                >
+                                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                    <button class="btn btn-sm btn-outline-danger" type="submit">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                        Eliminar
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </article>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info mb-0">
+                        Próximamente voy a agregar mis experiencias laborales.
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+
+
+        <!-- ============================================================
+             5. EDUCACION
+             ============================================================ -->
+        <section id="educacion" class="seccion">
+            <div class="container">
+                <div class="seccion-cabecera">
+                    <div class="fila-titulo-seccion">
+                        <div>
+                            <h2 class="titulo-seccion">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                                Educación
+                            </h2>
+                            <p class="texto-intro">
+                                Estudios, cursos y espacios de formación que acompañaron mi camino.
+                            </p>
+                        </div>
+
+                        {% if sesion_iniciada %}
+                            <button
+                                class="btn btn-primary"
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalEducacion"
+                                data-modo="agregar"
+                                data-accion="{{ url_for('edicion.agregar_educacion') }}"
+                                data-titulo="Agregar estudio"
+                                data-registro='{{ {"orden": 0} | tojson }}'
+                            >
+                                <i class="fa-solid fa-plus me-1"></i>
+                                Agregar
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if educacion %}
+                    <div class="row g-4" {% if sesion_iniciada %}data-lista-orden="educacion"{% endif %}>
+                        {% for estudio in educacion %}
+                            <div class="col-12 col-lg-6 tarjeta-arrastrable" draggable="true" data-id="{{ estudio.id }}">
+                                <article class="tarjeta-elemento">
+                                    <img
+                                        src="{{ url_for('static', filename=estudio.logo) }}"
+                                        alt="Logo de {{ estudio.institucion }}"
+                                        class="logo-elemento"
+                                        width="72"
+                                        height="72"
+                                        loading="lazy"
+                                    >
+
+                                    <div>
+                                        <div class="fila-titulo-elemento">
+                                            <h3 class="titulo-elemento">{{ estudio.titulo }}</h3>
+                                            <span class="periodo-elemento">{{ estudio.periodo }}</span>
+                                        </div>
+
+                                        <p class="nombre-organizacion">{{ estudio.institucion }}</p>
+                                        <p class="descripcion-elemento">{{ estudio.descripcion }}</p>
+
+                                        {% if sesion_iniciada %}
+                                            <div class="acciones-tarjeta">
+                                                <button
+                                                    class="btn btn-sm btn-outline-primary"
+                                                    type="button"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalEducacion"
+                                                    data-modo="editar"
+                                                    data-accion="{{ url_for('edicion.editar_educacion', educacion_id=estudio.id) }}"
+                                                    data-titulo="Editar estudio"
+                                                    data-registro='{{ {
+                                                        "titulo": estudio.titulo,
+                                                        "institucion": estudio.institucion,
+                                                        "periodo": estudio.periodo,
+                                                        "descripcion": estudio.descripcion,
+                                                        "logo": estudio.logo,
+                                                        "orden": estudio.orden
+                                                    } | tojson }}'
+                                                >
+                                                    <i class="fa-solid fa-pen"></i>
+                                                    Editar
+                                                </button>
+
+                                                <form
+                                                    class="formulario-eliminar"
+                                                    method="post"
+                                                    action="{{ url_for('edicion.eliminar_educacion', educacion_id=estudio.id) }}"
+                                                    data-confirmar="¿Eliminar este estudio?"
+                                                >
+                                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                    <button class="btn btn-sm btn-outline-danger" type="submit">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                        Eliminar
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </article>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info mb-0">
+                        Próximamente voy a agregar mis estudios.
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+
+
+        <!-- ============================================================
+             6. HABILIDADES E IDIOMAS
+             Los skills se dibujan como circulos usando solamente CSS.
+             ============================================================ -->
+        <section id="skills" class="seccion seccion-alternativa">
+            <div class="container">
+                <div class="seccion-cabecera">
+                    <h2 class="titulo-seccion">
+                        <i class="fa-solid fa-code"></i>
+                        Habilidades e idiomas
+                    </h2>
+                    <p class="texto-intro">
+                        Herramientas técnicas, habilidades personales e idiomas que uso para trabajar.
+                    </p>
+                </div>
+
+                <div class="row g-5">
+
+                    <!-- Habilidades duras -->
+                    <div class="col-12 col-lg-6">
+                        <div class="fila-subtitulo-grupo">
+                            <h3 class="subtitulo-grupo">Hard Skills</h3>
+
+                            {% if sesion_iniciada %}
+                                <button
+                                    class="btn btn-sm btn-outline-primary"
+                                    type="button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalSkill"
+                                    data-modo="agregar"
+                                    data-accion="{{ url_for('edicion.agregar_skill') }}"
+                                    data-titulo="Agregar habilidad dura"
+                                    data-registro='{{ {"categoria": "Hard", "porcentaje": 50, "orden": 0} | tojson }}'
+                                >
+                                    <i class="fa-solid fa-plus"></i>
+                                    Agregar
+                                </button>
+                            {% endif %}
+                        </div>
+
+                        {% if skills_duras %}
+                            <div class="grilla-skills" {% if sesion_iniciada %}data-lista-orden="skills_hard"{% endif %}>
+                                {% for skill in skills_duras %}
+                                    <article class="tarjeta-skill tarjeta-arrastrable" draggable="true" data-id="{{ skill.id }}">
+                                        <div
+                                            class="circulo-skill circulo-skill-dura"
+                                            style="--porcentaje: {{ skill.porcentaje }};"
+                                            role="img"
+                                            aria-label="{{ skill.nombre }}: {{ skill.porcentaje }} por ciento"
+                                        >
+                                            <div class="circulo-skill-interior">
+                                                <span class="circulo-skill-numero">{{ skill.porcentaje }}%</span>
+                                            </div>
+                                        </div>
+                                        <h4 class="nombre-skill">{{ skill.nombre }}</h4>
+
+                                        {% if sesion_iniciada %}
+                                            <div class="acciones-skill">
+                                                <button
+                                                    class="btn btn-sm btn-outline-primary"
+                                                    type="button"
+                                                    title="Editar {{ skill.nombre }}"
+                                                    aria-label="Editar {{ skill.nombre }}"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalSkill"
+                                                    data-modo="editar"
+                                                    data-accion="{{ url_for('edicion.editar_skill', skill_id=skill.id) }}"
+                                                    data-titulo="Editar habilidad"
+                                                    data-registro='{{ {
+                                                        "nombre": skill.nombre,
+                                                        "porcentaje": skill.porcentaje,
+                                                        "categoria": skill.categoria,
+                                                        "orden": skill.orden
+                                                    } | tojson }}'
+                                                >
+                                                    <i class="fa-solid fa-pen"></i>
+                                                </button>
+
+                                                <form
+                                                    class="formulario-eliminar"
+                                                    method="post"
+                                                    action="{{ url_for('edicion.eliminar_skill', skill_id=skill.id) }}"
+                                                    data-confirmar="¿Eliminar la habilidad {{ skill.nombre }}?"
+                                                >
+                                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                    <button
+                                                        class="btn btn-sm btn-outline-danger"
+                                                        type="submit"
+                                                        title="Eliminar {{ skill.nombre }}"
+                                                        aria-label="Eliminar {{ skill.nombre }}"
+                                                    >
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        {% endif %}
+                                    </article>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted">Próximamente.</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Habilidades blandas -->
+                    <div class="col-12 col-lg-6">
+                        <div class="fila-subtitulo-grupo">
+                            <h3 class="subtitulo-grupo">Soft Skills</h3>
+
+                            {% if sesion_iniciada %}
+                                <button
+                                    class="btn btn-sm btn-outline-primary"
+                                    type="button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalSkill"
+                                    data-modo="agregar"
+                                    data-accion="{{ url_for('edicion.agregar_skill') }}"
+                                    data-titulo="Agregar habilidad blanda"
+                                    data-registro='{{ {"categoria": "Soft", "porcentaje": 50, "orden": 0} | tojson }}'
+                                >
+                                    <i class="fa-solid fa-plus"></i>
+                                    Agregar
+                                </button>
+                            {% endif %}
+                        </div>
+
+                        {% if skills_blandas %}
+                            <div class="grilla-skills" {% if sesion_iniciada %}data-lista-orden="skills_soft"{% endif %}>
+                                {% for skill in skills_blandas %}
+                                    <article class="tarjeta-skill tarjeta-arrastrable" draggable="true" data-id="{{ skill.id }}">
+                                        <div
+                                            class="circulo-skill circulo-skill-blanda"
+                                            style="--porcentaje: {{ skill.porcentaje }};"
+                                            role="img"
+                                            aria-label="{{ skill.nombre }}: {{ skill.porcentaje }} por ciento"
+                                        >
+                                            <div class="circulo-skill-interior">
+                                                <span class="circulo-skill-numero">{{ skill.porcentaje }}%</span>
+                                            </div>
+                                        </div>
+                                        <h4 class="nombre-skill">{{ skill.nombre }}</h4>
+
+                                        {% if sesion_iniciada %}
+                                            <div class="acciones-skill">
+                                                <button
+                                                    class="btn btn-sm btn-outline-primary"
+                                                    type="button"
+                                                    title="Editar {{ skill.nombre }}"
+                                                    aria-label="Editar {{ skill.nombre }}"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalSkill"
+                                                    data-modo="editar"
+                                                    data-accion="{{ url_for('edicion.editar_skill', skill_id=skill.id) }}"
+                                                    data-titulo="Editar habilidad"
+                                                    data-registro='{{ {
+                                                        "nombre": skill.nombre,
+                                                        "porcentaje": skill.porcentaje,
+                                                        "categoria": skill.categoria,
+                                                        "orden": skill.orden
+                                                    } | tojson }}'
+                                                >
+                                                    <i class="fa-solid fa-pen"></i>
+                                                </button>
+
+                                                <form
+                                                    class="formulario-eliminar"
+                                                    method="post"
+                                                    action="{{ url_for('edicion.eliminar_skill', skill_id=skill.id) }}"
+                                                    data-confirmar="¿Eliminar la habilidad {{ skill.nombre }}?"
+                                                >
+                                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                    <button
+                                                        class="btn btn-sm btn-outline-danger"
+                                                        type="submit"
+                                                        title="Eliminar {{ skill.nombre }}"
+                                                        aria-label="Eliminar {{ skill.nombre }}"
+                                                    >
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        {% endif %}
+                                    </article>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted">Próximamente.</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Idiomas -->
+                    <div class="col-12">
+                        <div class="fila-subtitulo-grupo">
+                            <h3 class="subtitulo-grupo">Idiomas</h3>
+
+                            {% if sesion_iniciada %}
+                                <button
+                                    class="btn btn-sm btn-outline-primary"
+                                    type="button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalIdioma"
+                                    data-modo="agregar"
+                                    data-accion="{{ url_for('edicion.agregar_idioma') }}"
+                                    data-titulo="Agregar idioma"
+                                    data-registro='{{ {"porcentaje": 50, "orden": 0} | tojson }}'
+                                >
+                                    <i class="fa-solid fa-plus"></i>
+                                    Agregar
+                                </button>
+                            {% endif %}
+                        </div>
+
+                        {% if idiomas %}
+                            <div class="row g-4" {% if sesion_iniciada %}data-lista-orden="idiomas"{% endif %}>
+                                {% for idioma in idiomas %}
+                                    <div class="col-12 col-md-6 col-lg-4 tarjeta-arrastrable" draggable="true" data-id="{{ idioma.id }}">
+                                        <article class="tarjeta-idioma">
+                                            <div class="cabecera-idioma">
+                                                <h4 class="nombre-idioma">{{ idioma.nombre }}</h4>
+                                                <span class="nivel-idioma">{{ idioma.nivel }}</span>
+                                            </div>
+
+                                            <p class="porcentaje-idioma">{{ idioma.porcentaje }}%</p>
+
+                                            <div
+                                                class="barra-idioma"
+                                                role="progressbar"
+                                                aria-label="{{ idioma.nombre }}"
+                                                aria-valuenow="{{ idioma.porcentaje }}"
+                                                aria-valuemin="0"
+                                                aria-valuemax="100"
+                                            >
+                                                <div
+                                                    class="barra-idioma-relleno"
+                                                    style="--porcentaje: {{ idioma.porcentaje }};"
+                                                ></div>
+                                            </div>
+
+                                            {% if sesion_iniciada %}
+                                                <div class="acciones-tarjeta acciones-idioma">
+                                                    <button
+                                                        class="btn btn-sm btn-outline-primary"
+                                                        type="button"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalIdioma"
+                                                        data-modo="editar"
+                                                        data-accion="{{ url_for('edicion.editar_idioma', idioma_id=idioma.id) }}"
+                                                        data-titulo="Editar idioma"
+                                                        data-registro='{{ {
+                                                            "nombre": idioma.nombre,
+                                                            "nivel": idioma.nivel,
+                                                            "porcentaje": idioma.porcentaje,
+                                                            "orden": idioma.orden
+                                                        } | tojson }}'
+                                                    >
+                                                        <i class="fa-solid fa-pen"></i>
+                                                        Editar
+                                                    </button>
+
+                                                    <form
+                                                        class="formulario-eliminar"
+                                                        method="post"
+                                                        action="{{ url_for('edicion.eliminar_idioma', idioma_id=idioma.id) }}"
+                                                        data-confirmar="¿Eliminar el idioma {{ idioma.nombre }}?"
+                                                    >
+                                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                        <button class="btn btn-sm btn-outline-danger" type="submit">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                            Eliminar
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            {% endif %}
+                                        </article>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted">Próximamente.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ============================================================
+             7. PROYECTOS
+             Cada proyecto tiene nombre, fecha, descripcion, enlace
+             e imagen.
+             ============================================================ -->
+        <section id="proyectos" class="seccion">
+            <div class="container">
+                <div class="seccion-cabecera">
+                    <div class="fila-titulo-seccion">
+                        <div>
+                            <h2 class="titulo-seccion">
+                                <i class="fa-solid fa-folder-open"></i>
+                                Proyectos
+                            </h2>
+                            <p class="texto-intro">
+                                Una selección de trabajos donde puse en práctica lo que aprendí.
+                            </p>
+                        </div>
+
+                        {% if sesion_iniciada %}
+                            <button
+                                class="btn btn-primary"
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalProyecto"
+                                data-modo="agregar"
+                                data-accion="{{ url_for('edicion.agregar_proyecto') }}"
+                                data-titulo="Agregar proyecto"
+                                data-registro='{{ {"orden": 0} | tojson }}'
+                            >
+                                <i class="fa-solid fa-plus me-1"></i>
+                                Agregar
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+
+                {% if proyectos %}
+                    <div class="row g-4" {% if sesion_iniciada %}data-lista-orden="proyectos"{% endif %}>
+                        {% for proyecto in proyectos %}
+                            <div class="col-12 col-md-6 tarjeta-arrastrable" draggable="true" data-id="{{ proyecto.id }}">
+                                <article class="tarjeta-proyecto">
+                                    <div class="contenedor-imagen-proyecto">
+                                        <img
+                                            src="{{ url_for('static', filename=proyecto.imagen) }}"
+                                            class="imagen-proyecto"
+                                            alt="Imagen del proyecto {{ proyecto.nombre }}"
+                                            loading="lazy"
+                                        >
+                                    </div>
+
+                                    <div class="cuerpo-proyecto">
+                                        <div class="cabecera-proyecto">
+                                            <h3 class="titulo-proyecto">{{ proyecto.nombre }}</h3>
+                                            <time class="fecha-proyecto" datetime="{{ proyecto.fecha }}">
+                                                {{ proyecto.fecha }}
+                                            </time>
+                                        </div>
+
+                                        <p class="descripcion-proyecto">{{ proyecto.descripcion }}</p>
+
+                                        <a
+                                            class="btn btn-outline-primary align-self-start"
+                                            href="{{ proyecto.enlace }}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
+                                            Ver proyecto
+                                            <i class="fa-solid fa-arrow-up-right-from-square ms-1"></i>
+                                        </a>
+
+                                        {% if sesion_iniciada %}
+                                            <div class="acciones-tarjeta">
+                                                <button
+                                                    class="btn btn-sm btn-outline-primary"
+                                                    type="button"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalProyecto"
+                                                    data-modo="editar"
+                                                    data-accion="{{ url_for('edicion.editar_proyecto', proyecto_id=proyecto.id) }}"
+                                                    data-titulo="Editar proyecto"
+                                                    data-registro='{{ {
+                                                        "nombre": proyecto.nombre,
+                                                        "fecha": proyecto.fecha.isoformat(),
+                                                        "descripcion": proyecto.descripcion,
+                                                        "enlace": proyecto.enlace,
+                                                        "imagen": proyecto.imagen,
+                                                        "orden": proyecto.orden
+                                                    } | tojson }}'
+                                                >
+                                                    <i class="fa-solid fa-pen"></i>
+                                                    Editar
+                                                </button>
+
+                                                <form
+                                                    class="formulario-eliminar"
+                                                    method="post"
+                                                    action="{{ url_for('edicion.eliminar_proyecto', proyecto_id=proyecto.id) }}"
+                                                    data-confirmar="¿Eliminar el proyecto {{ proyecto.nombre }}?"
+                                                >
+                                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                    <button class="btn btn-sm btn-outline-danger" type="submit">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                        Eliminar
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </article>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info mb-0">
+                        Próximamente voy a agregar mis proyectos.
+                    </div>
+                {% endif %}
+            </div>
+        </section>
+
+
+        <!-- ============================================================
+             8. ADMINISTRACION DE REDES SOCIALES
+             Esta seccion solamente se ve cuando hay una sesion iniciada.
+             ============================================================ -->
+        {% if sesion_iniciada %}
+            <section id="redes-sociales-admin" class="seccion">
+                <div class="container">
+                    <div class="seccion-cabecera">
+                        <div class="fila-titulo-seccion">
+                            <div>
+                                <h2 class="titulo-seccion">
+                                    <i class="fa-solid fa-share-nodes"></i>
+                                    Redes sociales
+                                </h2>
+                                <p class="texto-intro">
+                                    Estos enlaces aparecen en el encabezado y en el pie.
+                                    Este panel solamente lo ves vos.
+                                </p>
+                            </div>
+
+                            <button
+                                class="btn btn-primary"
+                                type="button"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalRedSocial"
+                                data-modo="agregar"
+                                data-accion="{{ url_for('edicion.agregar_red_social') }}"
+                                data-titulo="Agregar red social"
+                                data-registro='{{ {"orden": 0} | tojson }}'
+                            >
+                                <i class="fa-solid fa-plus me-1"></i>
+                                Agregar
+                            </button>
+                        </div>
+                    </div>
+
+                    {% if redes_sociales %}
+                        <div class="row g-4" data-lista-orden="redes_sociales">
+                            {% for red in redes_sociales %}
+                                <div class="col-12 col-md-6 col-lg-4 tarjeta-arrastrable" draggable="true" data-id="{{ red.id }}">
+                                    <article class="tarjeta-red-admin">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <span class="icono-red-admin">
+                                                <i class="{{ red.icono }}"></i>
+                                            </span>
+                                            <div class="overflow-hidden">
+                                                <h3 class="h6 mb-1">{{ red.nombre }}</h3>
+                                                <a
+                                                    class="enlace-red-admin"
+                                                    href="{{ red.enlace }}"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    {{ red.enlace }}
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                        <div class="acciones-tarjeta">
+                                            <button
+                                                class="btn btn-sm btn-outline-primary"
+                                                type="button"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalRedSocial"
+                                                data-modo="editar"
+                                                data-accion="{{ url_for('edicion.editar_red_social', red_social_id=red.id) }}"
+                                                data-titulo="Editar red social"
+                                                data-registro='{{ {
+                                                    "nombre": red.nombre,
+                                                    "enlace": red.enlace,
+                                                    "icono": red.icono,
+                                                    "orden": red.orden
+                                                } | tojson }}'
+                                            >
+                                                <i class="fa-solid fa-pen"></i>
+                                                Editar
+                                            </button>
+
+                                            <form
+                                                class="formulario-eliminar"
+                                                method="post"
+                                                action="{{ url_for('edicion.eliminar_red_social', red_social_id=red.id) }}"
+                                                data-confirmar="¿Eliminar la red social {{ red.nombre }}?"
+                                            >
+                                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                                <button class="btn btn-sm btn-outline-danger" type="submit">
+                                                    <i class="fa-solid fa-trash"></i>
+                                                    Eliminar
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </article>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info mb-0">
+                            Todavía no hay redes sociales cargadas.
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+        {% endif %}
+    </main>
+
+
+    <!-- ============================================================
+         10. PIE DE PAGINA
+         ============================================================ -->
+    <footer class="pie-pagina">
+        <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between gap-3">
+            <p>
+                {{ perfil.nombre_completo }} &copy; {{ anio_actual }}
+            </p>
+
+            <div class="enlaces-pie">
+                {% for red in redes_sociales %}
+                    <a
+                        class="enlace-social"
+                        href="{{ red.enlace }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="{{ red.nombre }}"
+                    >
+                        <i class="{{ red.icono }}"></i>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ============================================================
+         FORMULARIO OCULTO PARA GUARDAR EL ORDEN
+         JavaScript lo rellena con el tipo de lista y los ids en el orden
+         nuevo. Después lo envía por POST. No se ve en la pantalla.
+         ============================================================ -->
+    {% if sesion_iniciada %}
+        <form
+            id="formulario-orden"
+            class="d-none"
+            method="post"
+            action="{{ url_for('edicion.guardar_orden') }}"
+        >
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="tipo" id="campo-tipo-orden">
+            <input type="hidden" name="ids" id="campo-ids-orden">
+        </form>
+    {% endif %}
+
+
+    <!-- ============================================================
+         MODALES
+         El login se muestra a los visitantes.
+         Los modales de edicion se muestran solamente con sesion.
+         ============================================================ -->
+    {% if sesion_iniciada %}
+        {% include "modal_edicion.html" %}
+    {% else %}
+        {% include "modal_login.html" %}
+    {% endif %}
+
+{% endblock %}

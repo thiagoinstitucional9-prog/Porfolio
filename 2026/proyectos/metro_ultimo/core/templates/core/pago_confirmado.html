@@ -1,0 +1,65 @@
+{% extends "core/base.html" %}
+
+{% block titulo %}Pago simulado aprobado · METRO{% endblock %}
+
+{% block contenido %}
+<section class="pagina">
+  <div class="contenedor contenedor-angosto">
+
+    <header class="pagina-cabecera">
+      <p class="kicker">Pago simulado</p>
+      <h1>Pago aprobado</h1>
+    </header>
+
+    <article class="resumen-card pago-exito">
+      <p class="pago-check">✓</p>
+      <h2>Tu reserva de prueba quedó confirmada</h2>
+      <p class="pago-nota">
+        Este comprobante es una simulación: no se realizó ningún cobro real.
+      </p>
+      <p class="pago-codigo">
+        Código de operación: <strong>{{ codigo }}</strong>
+      </p>
+
+      <dl class="resumen-datos">
+        <div>
+          <dt>Viaje</dt>
+          <dd>{{ viaje.origen }} → {{ viaje.destino }}</dd>
+        </div>
+        <div><dt>Fecha</dt><dd>{{ viaje.dia_largo }}</dd></div>
+        <div><dt>Salida</dt><dd>{{ viaje.hora }} hs</dd></div>
+        <div><dt>Servicio</dt><dd>{{ viaje.clase }}</dd></div>
+        <div><dt>Pasajeros</dt><dd>{{ pasajeros }}</dd></div>
+        <div><dt>Tarjeta</dt><dd>{{ tarjeta }}</dd></div>
+        <div>
+          <dt>Cuotas</dt>
+          <dd>
+            {% if cuotas == 1 %}
+              1 pago
+            {% else %}
+              {{ cuotas }} cuotas de ${{ cuota_txt }}
+            {% endif %}
+          </dd>
+        </div>
+        <div class="resumen-total"><dt>Total</dt><dd>${{ total_txt }}</dd></div>
+      </dl>
+    </article>
+
+    <div class="aviso">
+      <h2>¿Qué sigue?</h2>
+      <p>
+        Guardá el código de operación. En una compra real, el comprobante se
+        enviaría por email y la reserva quedaría registrada en el sistema.
+      </p>
+      {% if email %}
+      <p class="nota-suave">Comprobante simulado enviado a {{ email }}.</p>
+      {% endif %}
+      <div class="aviso-acciones">
+        <a class="btn btn-rojo" href="{% url 'core:inicio' %}">Volver al inicio</a>
+        <a class="btn btn-oscuro" href="{% url 'core:buscar' %}">Buscar otro viaje</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

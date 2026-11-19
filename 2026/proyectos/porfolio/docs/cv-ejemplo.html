@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>CV - Thiago Pérez</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 14mm;
+            background: #ffffff;
+            color: #1f2937;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 9.4pt;
+            line-height: 1.45;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        h1,
+        h2,
+        h3,
+        p,
+        ul {
+            margin: 0;
+        }
+
+        .cabecera {
+            padding: 8mm;
+            background: linear-gradient(135deg, #134e4a, #0f172a);
+            border-radius: 5mm;
+            color: #ffffff;
+        }
+
+        .cabecera h1 {
+            font-size: 25pt;
+            line-height: 1.1;
+            letter-spacing: 0.02em;
+        }
+
+        .cabecera .titulo {
+            margin-top: 2mm;
+            color: #99f6e4;
+            font-size: 12pt;
+            font-weight: 700;
+        }
+
+        .contacto {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2mm 7mm;
+            margin-top: 4mm;
+            color: #d1fae5;
+            font-size: 8.8pt;
+        }
+
+        .contacto span {
+            display: inline-flex;
+            align-items: center;
+            gap: 1.5mm;
+        }
+
+        .contenido {
+            display: grid;
+            grid-template-columns: 1.55fr 1fr;
+            gap: 7mm;
+            margin-top: 6mm;
+        }
+
+        .columna {
+            display: flex;
+            flex-direction: column;
+            gap: 5mm;
+        }
+
+        .bloque h2 {
+            margin-bottom: 2.5mm;
+            padding-bottom: 1.2mm;
+            border-bottom: 0.6mm solid #14b8a6;
+            color: #0f766e;
+            font-size: 10.5pt;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .resumen {
+            color: #374151;
+        }
+
+        .elemento {
+            margin-bottom: 3.5mm;
+            break-inside: avoid;
+        }
+
+        .elemento:last-child {
+            margin-bottom: 0;
+        }
+
+        .elemento h3 {
+            color: #111827;
+            font-size: 10pt;
+        }
+
+        .elemento .subtitulo {
+            margin-top: 0.3mm;
+            color: #0f766e;
+            font-size: 9pt;
+            font-weight: 700;
+        }
+
+        .elemento .periodo {
+            float: right;
+            padding: 0.6mm 2mm;
+            border-radius: 2mm;
+            background: #ccfbf1;
+            color: #115e59;
+            font-size: 7.8pt;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .elemento p {
+            margin-top: 1mm;
+            color: #4b5563;
+        }
+
+        .habilidades {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5mm;
+        }
+
+        .habilidad {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2mm;
+            padding: 1.2mm 2mm;
+            border: 0.2mm solid #dbe4ee;
+            border-radius: 2mm;
+            background: #f8fafc;
+            font-size: 8.4pt;
+        }
+
+        .habilidad strong {
+            color: #0f766e;
+        }
+
+        .idioma {
+            margin-bottom: 2mm;
+        }
+
+        .idioma .fila {
+            display: flex;
+            justify-content: space-between;
+            font-size: 8.8pt;
+        }
+
+        .idioma .barra {
+            height: 1.8mm;
+            margin-top: 1mm;
+            overflow: hidden;
+            background: #e2e8f0;
+            border-radius: 2mm;
+        }
+
+        .idioma .relleno {
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #14b8a6, #0f766e);
+        }
+
+        .proyecto {
+            margin-bottom: 2.5mm;
+        }
+
+        .proyecto h3 {
+            font-size: 9.2pt;
+        }
+
+        .proyecto p {
+            color: #4b5563;
+            font-size: 8.3pt;
+        }
+
+        .proyecto a {
+            color: #0f766e;
+            font-size: 7.8pt;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .pie {
+            margin-top: 5mm;
+            padding-top: 2mm;
+            border-top: 0.2mm solid #dbe4ee;
+            color: #64748b;
+            font-size: 7.8pt;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="cabecera">
+        <h1>Thiago Pérez</h1>
+        <p class="titulo">Desarrollador Full Stack Jr.</p>
+        <div class="contacto">
+            <span>Buenos Aires, Argentina</span>
+            <span>thiago.ejemplo@correo.com</span>
+            <span>github.com/tu-usuario</span>
+        </div>
+    </header>
+
+    <div class="contenido">
+
+        <div class="columna">
+
+            <section class="bloque">
+                <h2>Perfil</h2>
+                <p class="resumen">
+                    Desarrollador Full Stack Junior con muchas ganas de seguir aprendiendo.
+                    Disfruto transformar ideas en sitios web claros, ordenados y fáciles de usar.
+                    Trabajo con HTML, CSS, JavaScript, Python, Flask y MySQL, y me interesa
+                    entender cada paso del proceso: desde la base de datos hasta lo que ve
+                    la persona que visita el sitio.
+                </p>
+            </section>
+
+            <section class="bloque">
+                <h2>Experiencia</h2>
+
+                <div class="elemento">
+                    <h3>Desarrollador Web Junior <span class="periodo">2025 - Actualidad</span></h3>
+                    <p class="subtitulo">Estudio Digital</p>
+                    <p>
+                        Desarrollo de páginas web para pequeños negocios. Trabajo con HTML,
+                        CSS, Bootstrap, JavaScript y Flask, y participo en la revisión de
+                        formularios y de la experiencia de usuario.
+                    </p>
+                </div>
+
+                <div class="elemento">
+                    <h3>Practicante de Desarrollo <span class="periodo">2024 - 2025</span></h3>
+                    <p class="subtitulo">TecnoLab</p>
+                    <p>
+                        Colaboré en el mantenimiento de una aplicación interna. Corregí
+                        errores simples, ordené consultas SQL y documenté los cambios
+                        realizados para el resto del equipo.
+                    </p>
+                </div>
+
+                <div class="elemento">
+                    <h3>Desarrollador Freelance <span class="periodo">2023 - Actualidad</span></h3>
+                    <p class="subtitulo">Proyectos personales</p>
+                    <p>
+                        Creación de landing pages y pequeños sistemas para conocidos.
+                        Me encargo del diseño, del front end, de la base de datos y de la
+                        puesta en marcha del proyecto.
+                    </p>
+                </div>
+            </section>
+
+            <section class="bloque">
+                <h2>Educación</h2>
+
+                <div class="elemento">
+                    <h3>Tecnicatura en Programación <span class="periodo">2024 - 2026</span></h3>
+                    <p class="subtitulo">Instituto Tecnológico del Sur</p>
+                    <p>
+                        Formación en lógica de programación, bases de datos, desarrollo web
+                        y trabajo en equipo. Actualmente estoy desarrollando el proyecto
+                        final integrador.
+                    </p>
+                </div>
+
+                <div class="elemento">
+                    <h3>Curso de Desarrollo Web Full Stack <span class="periodo">2025</span></h3>
+                    <p class="subtitulo">Academia Digital</p>
+                    <p>
+                        Curso práctico con HTML, CSS, JavaScript, Python, Flask y MySQL.
+                        El trabajo final fue un portfolio personal con modo de edición.
+                    </p>
+                </div>
+            </section>
+
+        </div>
+
+        <div class="columna">
+
+            <section class="bloque">
+                <h2>Hard Skills</h2>
+                <div class="habilidades">
+                    <div class="habilidad"><span>HTML5</span><strong>85%</strong></div>
+                    <div class="habilidad"><span>CSS3</span><strong>80%</strong></div>
+                    <div class="habilidad"><span>JavaScript</span><strong>65%</strong></div>
+                    <div class="habilidad"><span>Python</span><strong>75%</strong></div>
+                    <div class="habilidad"><span>Flask</span><strong>70%</strong></div>
+                    <div class="habilidad"><span>MySQL</span><strong>65%</strong></div>
+                </div>
+            </section>
+
+            <section class="bloque">
+                <h2>Soft Skills</h2>
+                <div class="habilidades">
+                    <div class="habilidad"><span>Trabajo en equipo</span><strong>85%</strong></div>
+                    <div class="habilidad"><span>Comunicación</span><strong>80%</strong></div>
+                    <div class="habilidad"><span>Resolución</span><strong>75%</strong></div>
+                    <div class="habilidad"><span>Organización</span><strong>80%</strong></div>
+                </div>
+            </section>
+
+            <section class="bloque">
+                <h2>Idiomas</h2>
+
+                <div class="idioma">
+                    <div class="fila"><span>Español</span><strong>Nativo</strong></div>
+                    <div class="barra"><div class="relleno" style="width: 100%;"></div></div>
+                </div>
+
+                <div class="idioma">
+                    <div class="fila"><span>Inglés</span><strong>Intermedio</strong></div>
+                    <div class="barra"><div class="relleno" style="width: 65%;"></div></div>
+                </div>
+            </section>
+
+            <section class="bloque">
+                <h2>Proyectos</h2>
+
+                <div class="proyecto">
+                    <h3>Portfolio Web Personal</h3>
+                    <p>Flask, Jinja2 y MySQL con login, CRUD y diseño responsive.</p>
+                    <a href="https://github.com/tu-usuario/portfolio">github.com/tu-usuario/portfolio</a>
+                </div>
+
+                <div class="proyecto">
+                    <h3>Gestor de Tareas</h3>
+                    <p>Aplicación CRUD para crear, completar y eliminar tareas.</p>
+                    <a href="https://github.com/tu-usuario/gestor-tareas">github.com/tu-usuario/gestor-tareas</a>
+                </div>
+
+                <div class="proyecto">
+                    <h3>Tienda de Plantas</h3>
+                    <p>Catálogo responsive con buscador y carrito simple.</p>
+                    <a href="https://github.com/tu-usuario/tienda-plantas">github.com/tu-usuario/tienda-plantas</a>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <p class="pie">
+        Portfolio personal · Buenos Aires, Argentina · 2026
+    </p>
+
+</body>
+</html>

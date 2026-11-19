@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block titulo %}Error del portfolio{% endblock %}
+
+{% block contenido %}
+    <main class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="tarjeta-error text-center">
+                    <i class="fa-solid fa-triangle-exclamation icono-error display-4"></i>
+
+                    <h1 class="h3 mt-4">No se pudo mostrar el portfolio</h1>
+
+                    <p class="mt-3">
+                        {{ mensaje }}
+                    </p>
+
+                    <a class="btn btn-primary mt-3" href="{{ url_for('portfolio.mostrar_portfolio') }}">
+                        Volver a intentar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

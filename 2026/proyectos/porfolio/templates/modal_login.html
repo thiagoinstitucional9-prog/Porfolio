@@ -1,0 +1,88 @@
+<!-- ============================================================
+     MODAL DE LOGIN
+     Se abre desde el boton "Login" del encabezado.
+     El formulario viaja por POST a la ruta de autenticacion.
+     ============================================================ -->
+<div
+    class="modal fade"
+    id="modalLogin"
+    tabindex="-1"
+    aria-labelledby="tituloModalLogin"
+    data-abrir-modal="{{ 'true' if abrir_modal_login else 'false' }}"
+>
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-portfolio">
+
+            <form method="post" action="{{ url_for('autenticacion.iniciar_sesion') }}">
+                {{ formulario_login.hidden_tag() }}
+
+                <div class="modal-header">
+                    <h2 class="modal-title fs-5" id="tituloModalLogin">
+                        <i class="fa-solid fa-right-to-bracket me-2"></i>
+                        Iniciar sesión
+                    </h2>
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"
+                        aria-label="Cerrar"
+                    ></button>
+                </div>
+
+                <div class="modal-body">
+                    <p class="texto-ayuda mb-3">
+                        Este acceso es solamente para la persona dueña del portfolio.
+                    </p>
+
+                    {% if mensaje_login %}
+                        <div class="alert alert-danger py-2" role="alert">
+                            <i class="fa-solid fa-circle-exclamation me-2"></i>
+                            {{ mensaje_login }}
+                        </div>
+                    {% endif %}
+
+                    <div class="mb-3">
+                        {{ formulario_login.nombre_usuario.label(class="form-label") }}
+                        {{ formulario_login.nombre_usuario(class="form-control") }}
+
+                        {% for error in formulario_login.nombre_usuario.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="mb-2">
+                        {{ formulario_login.clave.label(class="form-label") }}
+
+                        <div class="input-group">
+                            {{ formulario_login.clave(class="form-control") }}
+                            <button
+                                type="button"
+                                class="btn btn-outline-secondary"
+                                id="botonVerClave"
+                                aria-label="Ver contraseña"
+                                title="Ver contraseña"
+                            >
+                                <i class="fa-solid fa-eye" id="iconoVerClave"></i>
+                            </button>
+                        </div>
+
+                        {% for error in formulario_login.clave.errors %}
+                            <div class="text-danger small mt-1">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn btn-outline-secondary"
+                        data-bs-dismiss="modal"
+                    >
+                        Cancelar
+                    </button>
+                    {{ formulario_login.enviar(class="btn btn-primary") }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

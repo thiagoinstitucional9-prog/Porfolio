@@ -479,6 +479,41 @@ ul { margin: 0; padding: 0; list-style: none; }
 .aviso h2 { font-size: 1.3rem; color: var(--negro); }
 .aviso p { color: var(--texto-suave); }
 .aviso-acciones { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0 16px; }
+
+.pago-demo {
+  background: #fff8e5;
+  border-left: 4px solid #e0a100;
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #6b4b00;
+  font-size: .9rem;
+  line-height: 1.55;
+  margin: 0 0 20px;
+}
+.pago-demo strong { color: #4a3300; }
+
+.pago-exito { text-align: center; }
+.pago-exito h2 { color: var(--blanco); font-size: 1.5rem; }
+.pago-check {
+  width: 56px; height: 56px;
+  margin: 0 auto 14px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--rojo);
+  color: var(--blanco);
+  font-size: 2rem; font-weight: 900;
+}
+.pago-nota { color: #b9b9c3; margin: 0 0 16px; }
+.pago-codigo {
+  display: inline-block;
+  margin: 0 0 20px;
+  padding: 10px 16px;
+  border: 1px dashed rgba(255,255,255,.35);
+  border-radius: 8px;
+  color: var(--blanco);
+}
+.pago-codigo strong { color: var(--rojo-suave); letter-spacing: .08em; }
+.pago-exito .resumen-datos { text-align: left; }
 .volver { font-size: .92rem; font-weight: 700; color: var(--rojo); text-decoration: none; }
 .volver:hover { text-decoration: underline; }
 

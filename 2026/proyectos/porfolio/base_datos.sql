@@ -268,7 +268,6 @@ CREATE TABLE redes_sociales (
 --   from werkzeug.security import generate_password_hash
 --   generate_password_hash("nueva_contrasena")
 --
--- IMPORTANTE: cambiar esta contraseña antes de publicar el sitio.
 -- ============================================================
 
 INSERT INTO usuarios (id, nombre_usuario, clave_hash)
